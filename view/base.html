@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block titulo %} Bank {% endblock %}</</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<header class="col-xs-12">
+      <img src="/img/logo.png" alt="logo"/> 
+</header>
+<nav class=" col-xs-12 navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="myNavbar">
+    
+      <ul class="nav navbar-nav">
+        <li id="mCuentas" class="active"><a href="/tienda">Cuentas</a></li>
+		<li id="mTarjetas"><a href="/publicaciones">Tarjetas</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+	    <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
+        <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+	<script>
+		var mensaje = getUrlParameter('mensaje');
+		var tipoMensaje = getUrlParameter('tipoMensaje');
+		
+		if ( mensaje != ""){
+			if (tipoMensaje == "" ){
+				tipoMensaje = 'alert-info';
+			}
+			$( ".container" )
+				.append("<div class='alert "+tipoMensaje+"'>"+mensaje+" </div>");
+		}
+		
+		function getUrlParameter(name) {
+		    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		    var results = regex.exec(location.search);
+		    return results === null ? '' : 
+		    	decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
+	</script>
+
+	<!-- Contenido -->
+	{% block contenido_principal %}
+	<!-- Posible contenido por defecto -->
+	{% endblock %}
+
+</div>
+<footer></footer>
+</body>
+</html>
