@@ -33,33 +33,9 @@
 		</div>
 	</nav>
 	<div class="container">
-		<script>
-			var mensaje = getUrlParameter('mensaje');
-			var tipoMensaje = getUrlParameter('tipoMensaje');
-
-			if (mensaje != "") {
-				if (tipoMensaje == "") {
-					tipoMensaje = 'alert-info';
-				}
-				$(".container").append(
-						"<div class='alert "+tipoMensaje+"'>" + mensaje
-								+ " </div>");
-			}
-
-			function getUrlParameter(name) {
-				name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-				var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-				var results = regex.exec(location.search);
-				return results === null ? '' : decodeURIComponent(results[1]
-						.replace(/\+/g, ' '));
-			};
-		</script>
-
-		<!-- Contenido -->
-		{% block contenido_principal %}
-		<!-- Posible contenido por defecto -->
-		{% endblock %}
-
+		<table class="table table-hover">
+			
+		</table>
 	</div>
 	<footer id="footer" class="navbar">
 		<p>Banca online- Proyecto desarrollado por Maria Hernández e

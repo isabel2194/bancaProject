@@ -1,5 +1,24 @@
 
+@import url('https://fonts.googleapis.com/css?family=Dosis|Raleway');
 
-#menu{
+#menu,footer{
+	font-family:Dosis;
 	background-color:#a8845c;
+	font-weight:bold;
+}
+
+#menu li a{
+	color: white;
+	font-size:20px;
+}
+
+#menu li a:hover{
+	color:black;
+}
+
+#footer{
+	min-height: 20px;
+	text-align:center;
+	padding: 10px;
+	color:white;
 }

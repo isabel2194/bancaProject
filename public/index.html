@@ -1,3 +1,5 @@
+{% extends "base.html" %} {% block titulo %} Bank {% endblock %} {%
+block contenido_principal %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,33 +35,16 @@
 		</div>
 	</nav>
 	<div class="container">
-		<script>
-			var mensaje = getUrlParameter('mensaje');
-			var tipoMensaje = getUrlParameter('tipoMensaje');
-
-			if (mensaje != "") {
-				if (tipoMensaje == "") {
-					tipoMensaje = 'alert-info';
-				}
-				$(".container").append(
-						"<div class='alert "+tipoMensaje+"'>" + mensaje
-								+ " </div>");
-			}
-
-			function getUrlParameter(name) {
-				name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-				var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-				var results = regex.exec(location.search);
-				return results === null ? '' : decodeURIComponent(results[1]
-						.replace(/\+/g, ' '));
-			};
-		</script>
-
-		<!-- Contenido -->
-		{% block contenido_principal %}
-		<!-- Posible contenido por defecto -->
+		<main class="col-xs-12">
+		<div id="img_home" class="col-xs-12 col-sm-6">
+			<img src="../public/img/img_home.jpg" alt="Imagen principal"
+				class="img-responsive" />
+		</div>
+		<div id="texto_home" class="col-xs-12 col-sm-6">
+			<p>blablabla</p>
+		</div>
+		</main>
 		{% endblock %}
-
 	</div>
 	<footer id="footer" class="navbar">
 		<p>Banca online- Proyecto desarrollado por Maria Hernández e
