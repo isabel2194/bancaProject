@@ -71,8 +71,10 @@ module.exports = function(app, swig, gestorBD){
     //////////////////////////////////////////////////////////////////////////////////////
 
     //igual esto no hace falta porque es un desplegable
-    app.get("/identificarse", function(req, res) {
-		var respuesta = swig.renderFile('views/identificacion.html', {});
+    app.get("/home", function(req, res) {
+		var respuesta = swig.renderFile('views/home.html', {
+			usuario:true
+		});
 		res.send(respuesta);
 	});
 
@@ -93,7 +95,7 @@ module.exports = function(app, swig, gestorBD){
 						"&tipoMensaje=alert-danger ");
 			} else {
                 if(usuarios[0].password == password){
-                    res.send("usuario identificado");
+                    res.redirect("/home");
                 }
                 else{
                     res.send("Nombre o contraseña incorrectos")

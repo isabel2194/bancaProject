@@ -1,21 +1,13 @@
 {% extends "base.html" %} 
 {% block titulo %} Bank - Cuentas {% endblock %} 
 {%block contenido_principal %}
-<div id="info_cuenta" class="col-xs-12">
-    <p>IBAN: <span id="info_cuenta_iban"></span></p>
-    <p>Usuarios: <span id="info_cuenta_usuarios"></span></p>
-    <p>Saldo actual: <span id="info_cuenta_saldo"></span></p>
-    <button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" onclick="hacerFavorita()"></button><span> Marcar como predeterminada</span>
-    <div id="info_cuenta_options">
-        <button id="share_account" class="btn btn-default" onclick="compartirCuenta()"> COMPARTIR CUENTA</button>
-        <button id="transferencia_button" class="btn btn-default" onclick="hacerTranferencia()">TRANSFERENCIA</button>
-    </div>
-</div>
 <table class="table table-hover">
+    {% for cuenta in cuentas %}
     <tr>
-        <th >Fecha</th>
-        <th>Concepto</th>
-        <th>Cantidad</th>
+        <td>{%cuenta.iban%}</td>
+        <td>{%cuenta.usuarios%}</td>
+        <td>{%cuenta.principal%}</td>
     </tr>
+    {%endfor%}
 </table>
 {% endblock %}
