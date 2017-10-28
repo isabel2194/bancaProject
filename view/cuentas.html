@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <title>{% block titulo %} Bank {% endblock %}</</title>
         <meta charset="utf-8" />
@@ -10,27 +10,31 @@
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <script src="../public/js/opciones.js"></script>
         <link rel="stylesheet" href="../public/css/style.css" />
     </head>
     <body>
         <header class="col-xs-12">
-            <img src="../public/img/logos.png" alt="logo" />
+            <img class="img-responsive" src="../public/img/logos.png" alt="logo" />
         </header>
         <nav id="menu" class=" col-xs-12 navbar">
             <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li id="mCuentas" class="active"><a href="/tienda">Cuentas</a></li>
-                        <li id="mTarjetas"><a href="/publicaciones">Tarjetas</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/registrarse"><span
-                                    class="glyphicon glyphicon-user"></span> Registrate</a></li>
-                        <li><a href="/identificarse"><img
-                                    src="../public/img/padlock-icon.png" alt="Identificate" />Identifícate</a></li>
-                    </ul>
-                </div>
+                <ul class="nav navbar-nav">
+                    <li id="mCuentas" class="active"><a href="/cuentas">Cuentas</a></li>
+                    <li id="mTarjetas"><a href="/tarjetas">Tarjetas</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li><a href="/registrarse"><span
+                                 class="glyphicon glyphicon-user"></span> Registrate</a></li>
+                     <li><a href="/identificarse"><img
+                                 src="../public/img/padlock-icon.png" alt="Identificate" />Identifícate</a></li>-->
+                    <li><a href="/perfil"><span
+                                class="glyphicon glyphicon-user"></span> Perfil</a></li>
+                    <li><a href="/cerrarSesion"><span
+                                class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li>
+                </ul>
             </div>
         </nav>
         <div class="container">
@@ -38,16 +42,20 @@
                 <p>IBAN: <span id="info_cuenta_iban"></span></p>
                 <p>Usuarios: <span id="info_cuenta_usuarios"></span></p>
                 <p>Saldo actual: <span id="info_cuenta_saldo"></span></p>
-                <button id="favorite_account" class="glyphicon glyphicon-star-empty btn" onclick="hacerFavorita()"> Marcar como predeterminada</button>
+                <button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" onclick="hacerFavorita()"></button><span> Marcar como predeterminada</span>
+                <div id="info_cuenta_options">
+                    <button id="share_account" class="btn btn-default" onclick="compartirCuenta()"> COMPARTIR CUENTA</button>
+                    <button id="transferencia_button" class="btn btn-default" onclick="hacerTranferencia()">TRANSFERENCIA</button>
+                </div>
             </div>
-            <table class="table table-hover">
-                <tr>
-                    <th>Fecha</th>
-                    <th>Concepto</th>
-                    <th>Cantidad</th>
-                </tr>
-            </table>
-        </div>
+                <table class="table table-hover">
+                    <tr>
+                        <th >Fecha</th>
+                        <th>Concepto</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </table>
+            </div>
         <footer id="footer" class="navbar">
             <p>Banca online- Proyecto desarrollado por Maria Hernández e
                 Isabel Del Álamo para la asignatura de</p>

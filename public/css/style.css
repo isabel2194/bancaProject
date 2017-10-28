@@ -2,32 +2,72 @@
 @import url('https://fonts.googleapis.com/css?family=Dosis|Raleway');
 
 #menu,footer{
-	font-family:Dosis;
-	background-color:#a8845c;
-	font-weight:bold;
+    font-family:Dosis;
+    background-color:#a8845c;
+    font-weight:bold;
 }
 
 #menu li a{
-	color: white;
-	font-size:20px;
+    color: white;
+    font-size:20px;
 }
 
 #menu li a:hover{
-	color:black;
+    color:black;
 }
 
 #footer{
-	min-height: 20px;
-	text-align:center;
-	padding: 10px;
-	color:white;
+    min-height: 20px;
+    text-align:center;
+    padding: 10px;
+    color:white;
+}
+
+#info_cuenta{
+    background-color: #dddddd;
+    border-radius: 5px;
+    font-family:Dosis;
+    padding: 15px;
+    text-transform: uppercase;
 }
 
 #favorite_account{
-    background-color: white;
+    background-color: #dddddd;
     padding: 10px 0;
 }
 
+#div_crear_cuenta, #div_añadir_tarjeta{
+    padding: 15px;
+}
+
+#div_crear_cuenta > button, #div_añadir_tarjeta > button{
+    width:100%;
+}
+
+#form_crear_cuenta ,#form_añadir_tarjeta{
+     border:thin solid #ccc;
+     padding:15px;
+     margin:15px 0;
+     background-color:#ccc;
+     border-radius:5px;
+     display:none;
+}
+
 .glyphicon-star-empty:before , .glyphicon-star:before {
-    color: gold;
+    color: black;
+}
+#info_cuenta_options{
+    text-align: center;
+}
+
+body > div{
+    font-family:Dosis;
+    text-align:justify;
+    font-size:17px;
+}
+
+@media(max-width:800px){
+    .nav > li{
+        text-align: center;
+    }
 }

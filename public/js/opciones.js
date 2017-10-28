@@ -13,4 +13,13 @@ function hacerFavorita(){
     }
 }
 
+function hacerTrasferencia(){
+    
+}
+
+function compartirCuenta(){
+    
+}
+
+
 
