@@ -22,3 +22,12 @@
 	padding: 10px;
 	color:white;
 }
+
+#favorite_account{
+    background-color: white;
+    padding: 10px 0;
+}
+
+.glyphicon-star-empty:before , .glyphicon-star:before {
+    color: gold;
+}
