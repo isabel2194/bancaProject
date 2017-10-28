@@ -5,8 +5,8 @@ module.exports = function(app, swig, gestorBD){
     ////////////////////////////////////////////////////////////////////////////////
 
     app.get("/registrarse", function(req, res) {
-		var respuesta = swig.renderFile('views/registro.html', {});
-		res.send(respuesta);
+		//var respuesta = swig.renderFile('views/registro.html', {});
+		//res.send("me voy a registrar");
 	});
 
     app.post("/registrarse", function(req, res) {
@@ -17,35 +17,53 @@ module.exports = function(app, swig, gestorBD){
             var password = app.get("crypto").createHmac('sha256', app.get('clave'))
             .update(req.body.password).digest('hex');   
 
-            var criterio = { "nombreUsuario" : req.body.nombreUsuario  };	
-            gestorBD.obtenerUsuarios(criterio,function(usuarios){
-                if ( usuarios == null ){
-                    var usuario = {
-                        DNI : req.body.dni,
-                        movil : req.body.movil,
-                        nombre : req.body.nombre,
-                        apellidos : req.body.apellidos,
-                        direccion : req.body.direccion,
-                        fechaNacimiento : req.body.fechaNacimiento,
-                        email : req.body.email,
-                        password : password1,
-                        nombreUsuario : req.body.nombreUsuario
-                    }
+            var dni = req.body.dni;
+            var movil = req.body.movil;
+            var nombre = req.body.nombre;
+            var apellidos = req.body.apellidos;
+            var direccion = req.body.direccion;
+            var fechaNacimiento = req.body.fechaNacimiento;
+            var email = req.body.email;
+            var nombreUsuario = req.body.nombreUsuario;
 
-                    gestorBD.insertarUsuario(usuario, function(id) {
-                        if (id == null){
-                            res.redirect("/registrarse?mensaje=Error al registrar usuario");
-                            
-                        } else {
-                            res.redirect("/identificarse?mensaje=Nuevo usuario registrado");
+            if(dni == null || movil == null || nombre == null || apellidos == null || direccion == null || 
+                fechaNacimiento == null || email == null || nombreUsuario == null){
+                    res.send("Rellene todos los campos");
+            }
+            else{
+                var criterio = { "nombreUsuario" : req.body.nombreUsuario  };	
+                gestorBD.obtenerUsuarios(criterio,function(usuarios){
+                    if ( usuarios[0] == null ){
+                        var usuario = {
+                            DNI : req.body.dni,
+                            movil : req.body.movil,
+                            nombre : req.body.nombre,
+                            apellidos : req.body.apellidos,
+                            direccion : req.body.direccion,
+                            fechaNacimiento : req.body.fechaNacimiento,
+                            email : req.body.email,
+                            password : password,
+                            nombreUsuario : req.body.nombreUsuario
                         }
-                    });
-                } else {
-                    res.redirect("/registrarse?mensaje=Un usuario con ese identificador ya existe");
-                }
-            });
+    
+                        gestorBD.insertarUsuario(usuario, function(id) {
+                            if (id == null){
+                                res.send("error al registrar usuario")
+                                //res.redirect("/registrarse?mensaje=Error al registrar usuario");
+                                
+                            } else {
+                                res.send("Nuevo usuario registrado");
+                                //res.redirect("/identificarse?mensaje=Nuevo usuario registrado");
+                            }
+                        });
+                    } else {
+                        res.send("Un usuario con ese identificador ya existe");
+                    }
+                });
+            }            
         }else{
-            res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
+            res.send("Las contraseñas no coinciden");
+            //res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
         }
     });
 
@@ -64,19 +82,23 @@ module.exports = function(app, swig, gestorBD){
         .update(req.body.password).digest('hex');   
 
 		var criterio = {
-			nombreUsuario : req.body.nombreUsuario,
-			password : seguro
+			nombreUsuario : req.body.nombreUsuario
 		}
 
 		gestorBD.obtenerUsuarios(criterio, function(usuarios) {
-			if (usuarios == null || usuarios.length == 0) {
-				req.session.usuario = null;
+			if (usuarios[0] == null) {
+                req.session.usuario = null;
+                res.send("Nombre o contraseña incorrectos")
 				res.redirect("/identificarse" +
 						"?mensaje=Nombre de usuario o password incorrecto"+
 						"&tipoMensaje=alert-danger ");
 			} else {
-				req.session.usuario = usuarios[0].nombreUsuario;
-				res.redirect("/cuentas");
+                if(usuarios[0].password == password){
+                    res.send("usuario identificado");
+                }
+                else{
+                    res.send("Nombre o contraseña incorrectos")
+                }
 			}
 		});
     });
@@ -89,7 +111,7 @@ module.exports = function(app, swig, gestorBD){
         var criterio = { "nombreUsuario" : req.params.nombreUsuario  };	
         
         gestorBD.obtenerUsuarios(criterio,function(usuarios){
-            if ( usuarios != null ){
+            if ( usuarios[0] != null){
                 var usuario = {
                     DNI : req.body.dni,
                     movil : req.body.movil,
@@ -101,14 +123,16 @@ module.exports = function(app, swig, gestorBD){
                 }
                 gestorBD.modificarUsuario(criterio, usuario, function(id) {
                     if (id == null){
-                        res.redirect("/registrarse?mensaje=Error al editar el usuario");
-                        
+                        res.send("Error al editar el usuario");
+                        //res.redirect("/registrarse?mensaje=Error al editar el usuario");
                     } else {
-                        res.redirect("/identificarse?mensaje=Usuario editado correctamente");
+                        res.send("Usuario editado correctamente")
+                        //res.redirect("/identificarse?mensaje=Usuario editado correctamente");
                     }
                 });
             } else {
-                res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
+                res.send("El usuario con ese identificador no existe");
+                //res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
             }
         });
     });
@@ -125,24 +149,27 @@ module.exports = function(app, swig, gestorBD){
             var criterio = { "nombreUsuario" : req.params.nombreUsuario  };	
             
             gestorBD.obtenerUsuarios(criterio,function(usuarios){
-                if ( usuarios != null ){
+                if ( usuarios[0] != null ){
                     var usuario = {
                         password : password
                     }
                     gestorBD.modificarUsuario(criterio, usuario, function(id) {
                         if (id == null){
-                            res.redirect("/registrarse?mensaje=Error al editar el usuario");
-                            
+                            res.send("error al editar las contraseñas");
+                            //res.redirect("/registrarse?mensaje=Error al editar el usuario");
                         } else {
-                            res.redirect("/identificarse?mensaje=Usuario editado correctamente");
+                            res.send("usuario editado correctamente");
+                            //res.redirect("/identificarse?mensaje=Usuario editado correctamente");
                         }
                     });
                 } else {
-                    res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
+                    res.send("usuario con identificador no existe");
+                    //res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
                 }
             });
         }else{
-            res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
+            res.send("las contraseñas no coinciden");
+            //res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
         }
     });
 
@@ -151,7 +178,9 @@ module.exports = function(app, swig, gestorBD){
     //////////////////////////////////////////////////////////////////////////////////////
 
     app.get("/cerrarSesion", function(req, res) {
-        var respuesta = swig.renderFile('views/home.html', {});
+        var respuesta = swig.renderFile('view/home.html', {
+            usuario : false
+        });
 
         req.session.usuario = null;
         req.session.destroy();

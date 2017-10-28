@@ -5,12 +5,13 @@ module.exports = function(app, swig, gestorBD, dateTime){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get('/cuenta/crear', function (req, res) {
-		var respuesta = swig.renderFile('view/agregarCuenta.html', {});
-        res.send(respuesta);
+        res.send("crear cuenta")
+		//var respuesta = swig.renderFile('view/agregarCuenta.html', {});
+        //res.send(respuesta);
     });
 
     app.post("/cuenta/crear", function(req, res) {
-        var nombreUsuario = req.session.nombreUsuario;
+        var nombreUsuario = req.body.nombreUsuario;
         var ibanCUenta = req.body.iban
 
         var criterioCuenta = { "iban" : req.body.iban  };	
@@ -18,7 +19,7 @@ module.exports = function(app, swig, gestorBD, dateTime){
 
         //la cuenta con el iban ya existe?
         gestorBD.obtenerCuentas(criterioCuenta ,function(cuentas){
-            if ( cuentas == null ){
+            if ( cuentas[0] == null ){
                 var cuenta = {
                     iban : ibanCuenta,
                     //por defecto está a falso??, solo se pone con la estrella desde el menú??

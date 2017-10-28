@@ -39,15 +39,14 @@ routerUsuarioSession.use(function(req, res, next) {
 //Aplicar routerUsuarioSession
 //usuario
 
-app.use("/editarUsuario/:nombreUsuario", routerUsuarioSession);
-app.use("/editarPassUsuario/:nombreUsuario", routerUsuarioSession);
-app.use("/cerrarSesion", routerUsuarioSession);
+//app.use("/editarUsuario/:nombreUsuario", routerUsuarioSession);
+//app.use("/editarPassUsuario/:nombreUsuario", routerUsuarioSession);
+//app.use("/cerrarSesion", routerUsuarioSession);
 
 //cuenta
 //comprobar si es asi
-app.use("/cuenta*",routerUsuarioSession);
-app.use("/tarjeta*", routerUsuarioSession);
-
+//app.use("/cuenta*",routerUsuarioSession);
+//app.use("/tarjeta*", routerUsuarioSession);
 
 app.use(express.static('public'));
 
@@ -63,7 +62,6 @@ var dateTime = require('node-datetime');
 require("./routes/rcuentas.js")(app, swig, gestorBD, dateTime);
 require("./routes/rusuarios.js")(app, swig, gestorBD);
 require("./routes/rtarjetas.js")(app, swig, gestorBD);
-
 
 // lanzar el servidor
 app.listen(app.get('port'), function() {
