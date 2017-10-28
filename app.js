@@ -63,6 +63,14 @@ require("./routes/rcuentas.js")(app, swig, gestorBD, dateTime);
 require("./routes/rusuarios.js")(app, swig, gestorBD);
 require("./routes/rtarjetas.js")(app, swig, gestorBD);
 
+app.get('/', function (req, res) {
+	var respuesta = swig.renderFile('views/index.html', 
+	{
+		usuario : false
+	});
+	res.send(respuesta);
+})
+
 // lanzar el servidor
 app.listen(app.get('port'), function() {
 	console.log("Servidor activo");
