@@ -1,75 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <title>{% block titulo %} Bank {% endblock %}</</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet"
-              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-        <script src="/js/opciones.js"></script>
-        <link rel="stylesheet" href="/css/style.css" />
-    </head>
-    <body>
-        <header class="col-xs-12">
-            <img class="img-responsive" src="/img/logos.png" alt="logo" />
-        </header>
-        <nav id="menu" class=" col-xs-12 navbar">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav">
-                    <li id="mCuentas" class="active"><a href="/cuentas">Cuentas</a></li>
-                    <li id="mTarjetas"><a href="/tarjetas">Tarjetas</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- <li><a href="/registrarse"><span
-                                 class="glyphicon glyphicon-user"></span> Registrate</a></li>
-                     <li><a href="/identificarse"><img
-                                 src="../public/img/padlock-icon.png" alt="Identificate" />Identifícate</a></li>-->
-                    <li><a href="/perfil"><span
-                                class="glyphicon glyphicon-user"></span> Perfil</a></li>
-                    <li><a href="/cerrarSesion"><span
-                                class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="container">
-            <script>
-                var mensaje = getUrlParameter('mensaje');
-                var tipoMensaje = getUrlParameter('tipoMensaje');
+<head>
+<title>{% block titulo %} Bank {% endblock %}</</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
+	rel="stylesheet">
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="/js/opciones.js"></script>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+	<header class="col-xs-12">
+		<img class="img-responsive" src="/img/logos.png" alt="logo" />
+	</header>
+	<nav id="menu" class=" col-xs-12 navbar">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+				<li id="mCuentas" class="active"><a href="/cuentas">Cuentas</a></li>
+				<li id="mTarjetas"><a href="/tarjetas">Tarjetas</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				{% if usuario==false %}
+				<li><a href="/registrarse"><span
+						class="glyphicon glyphicon-user"></span> Registrate</a></li>
+				<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img
+						src="/img/padlock-icon.png" alt="Identificate" />Identifícate<span class="caret"></span></a>
+			<ul id="login-dp" class="dropdown-menu">
+				<li>
+					 <div class="row">
+							<div class="col-md-12">
+								Iniciar sesión 
+								 <form class="form" role="form" method="post" action="/identificarse" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+											 <label class="sr-only" for="usernameLogin">Nombre de usuario</label>
+											 <input type="text" class="form-control" id="usernameLogin" name="nombreUsuario" placeholder="Nombre de usuario" required>
+										</div>
+										<div class="form-group">
+											 <label class="sr-only" for="passwordLogin">Contraseña</label>
+											 <input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Contraseña" required>
+										</div>
+										<div class="form-group">
+											 <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+										</div>
+								 </form>
+							</div>
+							<div class="bottom text-center">
+								Eres nuevo aquí? <a href="/registrarse"><b>Registrate</b></a>
+							</div>
+					 </div>
+				</li>
+			</ul>
+			</li>
+				{%endif %} 
+				{% if usuario==true %}
+				<li><a href="/perfil"><span
+						class="glyphicon glyphicon-user"></span> Perfil</a></li>
+				<li><a href="/cerrarSesion"><span
+						class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li>
+				{% endif%}
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<script>
+			var mensaje = getUrlParameter('mensaje');
+			var tipoMensaje = getUrlParameter('tipoMensaje');
 
-                if (mensaje != "") {
-                    if (tipoMensaje == "") {
-                        tipoMensaje = 'alert-info';
-                    }
-                    $(".container").append(
-                            "<div class='alert " + tipoMensaje + "'>" + mensaje
-                            + " </div>");
-                }
+			if (mensaje != "") {
+				if (tipoMensaje == "") {
+					tipoMensaje = 'alert-info';
+				}
+				$(".container").append(
+						"<div class='alert " + tipoMensaje + "'>" + mensaje
+								+ " </div>");
+			}
 
-                function getUrlParameter(name) {
-                    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-                    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-                    var results = regex.exec(location.search);
-                    return results === null ? '' : decodeURIComponent(results[1]
-                            .replace(/\+/g, ' '));
-                }
-                ;
-            </script>
+			function getUrlParameter(name) {
+				name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+				var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+				var results = regex.exec(location.search);
+				return results === null ? '' : decodeURIComponent(results[1]
+						.replace(/\+/g, ' '));
+			};
+		</script>
 
-            <!-- Contenido -->
-            {% block contenido_principal %}
-            <!-- Posible contenido por defecto -->
-            {% endblock %}
+		<!-- Contenido -->
+		{% block contenido_principal %}
+		<!-- Posible contenido por defecto -->
+		{% endblock %}
 
-        </div>
-        <footer id="footer" class="navbar">
-            <p>Banca online- Proyecto desarrollado por Maria Hernández e
-                Isabel Del Álamo para la asignatura de</p>
-        </footer>
-    </body>
+	</div>
+	<footer id="footer" class="navbar">
+		<p>Banca online- Proyecto desarrollado por Maria Hernández e
+			Isabel Del Álamo para la asignatura de</p>
+	</footer>
+</body>
 </html>

@@ -7,12 +7,12 @@
     font-weight:bold;
 }
 
-#menu li a{
+#menu li > a{
     color: white;
     font-size:20px;
 }
 
-#menu li a:hover{
+#menu li a:hover, #menu li > a:focus, .nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
     color:black;
 }
 
@@ -105,6 +105,36 @@ body > div{
     width: 300px; 
     color:steelblue;
 }
+
+/*Menu login dropdown*/
+#login-dp{
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow:hidden;
+    background-color:rgba(255,255,255,.8);
+}
+#login-dp .bottom{
+    background-color:rgba(255,255,255,.8);
+    border-top:1px solid #ddd;
+    clear:both;
+    padding:14px;
+}
+
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
+
+@media(max-width:768px){
+    #login-dp{
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+/*Fin menu login dropdown*/
 
 @media(max-width:800px){
     .nav > li{
