@@ -3,7 +3,7 @@
 
 #menu,footer{
     font-family:Dosis;
-    background-color:#a8845c;
+    background-color:steelblue;/*#a8845c;*/
     font-weight:bold;
 }
 
@@ -21,6 +21,7 @@
     text-align:center;
     padding: 10px;
     color:white;
+    margin-top:15px;
 }
 
 #info_cuenta{
@@ -36,15 +37,15 @@
     padding: 10px 0;
 }
 
-#div_crear_cuenta, #div_añadir_tarjeta{
+#div_crear_cuenta, #div_anadir_tarjeta{
     padding: 15px;
 }
 
-#div_crear_cuenta > button, #div_añadir_tarjeta > button{
+#div_crear_cuenta > button, #div_anadir_tarjeta > button{
     width:100%;
 }
 
-#form_crear_cuenta ,#form_añadir_tarjeta{
+#form_crear_cuenta ,#form_anadir_tarjeta{
      border:thin solid #ccc;
      padding:15px;
      margin:15px 0;
@@ -64,6 +65,45 @@ body > div{
     font-family:Dosis;
     text-align:justify;
     font-size:17px;
+}
+
+.box-white{
+	position: absolute;
+    top: 40vh;
+    right: 0;
+    width: 168px;
+    border: 1px solid black;
+    z-index: 1;
+    background-color: white;
+}
+
+.num-riesgo{
+	font-size:20px;
+	margin-bottom:10px;
+}
+
+.text-top , .text-bottom{
+    display: block;
+    padding: 15px;
+    width: 100%;
+    font-size: 9px;
+    color: #272627;
+    line-height: 11px;
+    border-bottom: 1px solid black;
+    vertical-align: top;
+}
+
+#texto_home{
+	float:left;
+	position:absolute;
+	z-index:1;
+	top: 70px;
+    right: 110px;
+    font-size: 40px;
+    font-family: Dosis;
+    text-align: center;
+    width: 300px; 
+    color:steelblue;
 }
 
 @media(max-width:800px){

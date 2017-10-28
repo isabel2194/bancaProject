@@ -1,59 +1,32 @@
-{% extends "base.html" %} {% block titulo %} Bank {% endblock %} {%
-block contenido_principal %}
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <title>{% block titulo %} Bank {% endblock %}</</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet"
-              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-        <script src="../public/js/opciones.js"></script>
-        <link rel="stylesheet" href="../public/css/style.css" />
-    </head>
-    <body>
-        <header class="col-xs-12">
-            <img class="img-responsive" src="../public/img/logos.png" alt="logo" />
-        </header>
-        <nav id="menu" class=" col-xs-12 navbar">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav">
-                    <li id="mCuentas" class="active"><a href="/cuentas">Cuentas</a></li>
-                    <li id="mTarjetas"><a href="/tarjetas">Tarjetas</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- <li><a href="/registrarse"><span
-                                 class="glyphicon glyphicon-user"></span> Registrate</a></li>
-                     <li><a href="/identificarse"><img
-                                 src="../public/img/padlock-icon.png" alt="Identificate" />Identif√≠cate</a></li>-->
-                    <li><a href="/perfil"><span
-                                class="glyphicon glyphicon-user"></span> Perfil</a></li>
-                    <li><a href="/cerrarSesion"><span
-                                class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="container">
-            <main class="col-xs-12">
-                <div id="img_home" class="col-xs-12 col-sm-6">
-                    <img src="../public/img/img_home.jpg" alt="Imagen principal"
-                         class="img-responsive" />
-                </div>
-                <div id="texto_home" class="col-xs-12 col-sm-6">
-                    <p>blablabla</p>
-                </div>
-            </main>
-            {% endblock %}
-        </div>
-        <footer id="footer" class="navbar">
-            <p>Banca online- Proyecto desarrollado por Maria Hern√°ndez e
-                Isabel Del √Ålamo para la asignatura de</p>
-        </footer>
-    </body>
-</html>
+{% extends "base.html" %} {% block titulo %} Bank - Tarjetas {% endblock
+%} {%block contenido_principal %}
+<main class="col-xs-12">
+<div id="img_home" class="col-xs-12">
+	<img src="../public/img/home-girl.jpg" alt="Imagen principal"
+		class="img-responsive" />
+	<div id="texto_home">
+		<p>Tu dinero, donde quieras y cuando quieras.</p>
+		<p>
+			Aprovecha, Bank, tu banca online con <b>0</b> comisiones.
+		</p>
+	</div>
+</div>
+</main>
+<div class="box-white">
+	<div class="text-top">
+		<div class="num-riesgo">
+			<span>1<span class="mini">/</span><strong>6</strong></span>
+		</div>
+		<div class="text-riesgo despliega">
+			<p>Este n˙mero es indicativo del riesgo del producto, siendo 1/6
+				indicativo de menor riesgo y 6/6 de mayor riesgo</p>
+		</div>
+	</div>
+	<div class="text-bottom">
+		<p>El Banco est· adscrito al Fondo de GarantÌa de DepÛsitos de
+			Entidades de CrÈdito (RD-ley 16/2011, de 14 de octubre). Para
+			depÛsitos en dinero, el importe m·ximo garantizado es de 100.000Ä por
+			despositante en cada entidad de crÈdito.</p>
+	</div>
+</div>
+{% endblock %}
