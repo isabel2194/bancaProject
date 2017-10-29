@@ -131,6 +131,13 @@ body > div{
     margin-bottom: 10px;
 }
 
+#msg-alert{
+	z-index: 3;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;

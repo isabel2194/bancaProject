@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block titulo %} Bank - Página principal {%endblock %} 
+{%block contenido_principal %}
+
+<div id="div_edit_password" class="col-xs-12">
+	<h1>Cambiar contraseña</h1>
+	<form id="form_edit_password" method="post" action='/editarPassUsuario/{{nombreUsuario}}'>
+		<div class="form-group">
+			<label>Nueba contraseña</label> <input type="password" class="form-control"
+				placeholder="Contraseña" name="password"/> 
+			<label>Repetir nueva contraseña</label> <input type="password" class="form-control"
+				placeholder="Contraseña" name="repeatPassword"/>
+			<button class="btn btn-default btn-lg" type="submit">Cambiar contraseña</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

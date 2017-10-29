@@ -77,7 +77,7 @@ module.exports = function(app, swig, gestorBD){
 
     //igual esto no hace falta porque es un desplegable
     app.get("/identificarse", function(req, res) {
-		var respuesta = swig.renderFile('views/identificacion.html', {});
+		var respuesta = swig.renderFile('views/index.html', {});
 		res.send(respuesta);
 	});
 
@@ -92,7 +92,7 @@ module.exports = function(app, swig, gestorBD){
 		gestorBD.obtenerUsuarios(criterio, function(usuarios) {
 			if (usuarios[0] == null) {
                 req.session.nombreUsuario = null;
-                res.send("Nombre o contraseña incorrectos")
+                //res.send("Nombre o contraseña incorrectos")
 				res.redirect("/identificarse" +
 						"?mensaje=Nombre de usuario o password incorrecto"+
 						"&tipoMensaje=alert-danger ");
@@ -116,6 +116,12 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////// EDICION ///////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
+    app.get("/perfil", function(req, res) {
+    	var respuesta = swig.renderFile('views/perfil.html', {
+    		nombreUsuario: req.session.nombreUsuario
+    	});
+		res.send(respuesta);
+	});
     
     app.put("/editarUsuario/:nombreUsuario", function(req, res) {
         var criterio = { "nombreUsuario" : req.params.nombreUsuario  };	
@@ -147,7 +153,7 @@ module.exports = function(app, swig, gestorBD){
         });
     });
 
-    app.put("/editarPassUsuario/:nombreUsuario", function(req, res) {
+    app.post("/editarPassUsuario/:nombreUsuario", function(req, res) {
         var password1 = req.body.password;
         var password2 = req.body.repeatPassword;
 
@@ -165,21 +171,21 @@ module.exports = function(app, swig, gestorBD){
                     }
                     gestorBD.modificarUsuario(criterio, usuario, function(id) {
                         if (id == null){
-                            res.send("error al editar las contraseñas");
-                            //res.redirect("/registrarse?mensaje=Error al editar el usuario");
+                            //res.send("error al editar las contraseñas");
+                            res.redirect("/registrarse?mensaje=Error al editar el usuario");
                         } else {
-                            res.send("usuario editado correctamente");
-                            //res.redirect("/identificarse?mensaje=Usuario editado correctamente");
+                            //res.send("usuario editado correctamente");
+                            res.redirect("/identificarse?mensaje=Usuario editado correctamente");
                         }
                     });
                 } else {
-                    res.send("usuario con identificador no existe");
-                    //res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
+                    //res.send("usuario con identificador no existe");
+                    res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
                 }
             });
         }else{
-            res.send("las contraseñas no coinciden");
-            //res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
+            //res.send("las contraseñas no coinciden");
+            res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
         }
     });
 
