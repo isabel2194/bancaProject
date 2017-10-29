@@ -6,7 +6,15 @@
         <td>Tarjeta: 1654 6565 1654 1236</td>
         <td><input type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
         <td><a href="">Dar de baja</a></td>
-        <td><a href="">PÃ©rdida/robo</a></td>
+        <td><a href="">Pérdida/robo</a></td>
     </tr>
+    {% for tarjeta in tarjetas %}
+    <tr>
+        <td>{%tarjeta.numero%}</td>
+        <td><input type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
+        <td><a href="">Dar de baja</a></td>
+        <td><a href="">Pérdida/robo</a></td>
+    </tr>
+    {%endfor%}
 </table>
 {% endblock %}
