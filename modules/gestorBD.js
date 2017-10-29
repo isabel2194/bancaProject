@@ -169,7 +169,7 @@ module.exports = {
                                 db.close();
                             });
                         }else{
-                            funcionCallback("cuenta no encontrada");
+                            funcionCallback(null);
                         }
                     }
                 });
@@ -196,7 +196,7 @@ module.exports = {
             }
         });
     },
-    usuarioQuitarPrincipal: function(criterioUsuario, funcionCallback) {
+    usuarioCambiarPrincipal: function(criterioUsuario, iban, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -221,69 +221,41 @@ module.exports = {
                             if (err) {
                                 funcionCallback(null);
                             } else {
-                                cuentas.find({ "principal" : true })
-                                .toArray(function(err, cuentas) {
-                                    if (err) {
-                                        funcionCallback(true);
-                                    } else {
-                                        var cuenta = cuentas[0];
-                                        cuenta.principal = false;
-                                        collection.update({iban : cuenta.iban}, {$set: cuenta}, function(err, result) {
-                                            if (err) {
-                                                funcionCallback(null);
-                                            } else {
-                                                funcionCallback(result);
-                                            }
-                                            db.close();
-                                        });
-                                     }   
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    },
-    usuarioPonerPrincipal : function(criterioUsuario, iban, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                
-                var collection = db.collection('usuarios');
-                collection.find(criterioUsuario).toArray(function(err, usuarios) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        var ArrayIds = usuarios[0].cuentas;
-                    
-                        if (ArrayIds == null){ // Puede no tener compras
-                            funcionCallback( {} );
-                            db.close();
-                            return;
-                        }
-    
-                        if($.inArray(iban, ArrayIds)){
-                            var collection2 = db.collection('cuentas');
-                            collection2.find({ "iban" : iban })
-                                .toArray(function(err, cuentas) {
-                                if (err) {
-                                    funcionCallback(null);
-                                } else {
-                                    var cuenta = cuentas[0];
-                                    cuenta.principal = true;
-                                    collection.update({iban : iban}, {$set: cuenta}, function(err, result) {
+                                var principalAntigua = cuentas.find(o => o.principal == true);
+                                var principalNueva = cuentas.find(o => o.iban == iban);
+
+                                if(principalAntigua != undefined){
+                                    //ya tenia una principal, la quito
+                                    principalAntigua.principal = false;
+                                    collection.update({iban : principalAntigua.iban}, {$set: principalAntigua}, function(err, result) {
                                         if (err) {
                                             funcionCallback(null);
                                         } else {
-                                            funcionCallback(result);
+                                            //poner la mia como principal
+                                            principalNueva.principal = true;
+                                            collection.update({iban : principalNueva.iban}, {$set: principalNueva}, function(err, result) {
+                                                if (err) {
+                                                    funcionCallback(null);
+                                                } else {
+                                                    funcionCallback(true);
+                                                }
+                                            });
                                         }
-                                        db.close();
                                     });
+                                }else{
+                                     //poner la mia como principal
+                                     principalNueva.principal = true;
+                                     collection.update({iban : principalNueva.iban}, {$set: principalNueva}, function(err, result) {
+                                         if (err) {
+                                             funcionCallback(null);
+                                         } else {
+                                             //poner la mia como principal
+                                            funcionCallback(true);
+                                         }
+                                     });
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 });
             }

@@ -64,7 +64,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get('/cuentas', function (req, res) {
-        var nombreUsuario = req.sesssion.nombreUsuario;
+        var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
         console.log(nombreUsuario);
 
@@ -72,14 +72,12 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 			if ( cuentas[0] == null ){
 				res.send("Usuario sin cuentas");
 			} else {
-                res.send(cuentas);
-                /*
+                //res.send(cuentas);
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
 					cuentas : cuentas
 				});
                 res.send(respuesta);
-                */
 			}
 		});
     });
@@ -87,7 +85,6 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////// DETALLE CUENTAS /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-    
     
     app.get('/cuenta/:iban', function (req, res) {
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
@@ -97,14 +94,12 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 			if (cuentas[0] == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
-                /*
-				var respuesta = swig.renderFile('view/cuentaDetalle.html', 
+				var respuesta = swig.renderFile('views/cuentaDetalle.html', 
 				{
                     //las cuentas tienen dentro un array de movimientos
 					cuentas : cuentas
                 });
-                */
-				res.send(cuentas);
+				res.send(respuesta);
 			}
 		});
     })
@@ -113,30 +108,39 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     //////////////////////////// COMPARTIR CUENTA /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.get('/cuenta/compartir/:iban', function (req, res) {
+    app.post('/cuenta/compartir/:iban', function (req, res) {
 
         var criterioUsuarioCompartir = { "nombreUsuario" : req.body.usuarioCompartir };
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
 	
 		gestorBD.obtenerUsuarios(criterioUsuarioCompartir, function(usuarios){
-			if (usuarios == null) {
+            console.log("obtenerUsuarios");
+			if (usuarios[0] == null) {
 				res.send("El usuario no existe");
 			} else {
-                gestorBD.usuarioCuentas(criterioUsuario, iban ,function(cuentas){
+                console.log("else");
+                gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+                    console.log("usuarioCuentas");
                     if (cuentas == null) {
                         res.send("El usuario no es dueño de la cuenta " + iban);
                     }
                     else{
-                         gestorBD.usuarioCuentas(criterioUsuarioCompartir, iban ,function(cuentas){
+                        console.log("else");
+                         gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban ,function(cuentas){
+                            console.log("usuarioCuentas");
                             if (cuentas != null) {
+                                console.log(cuentas);
                                 res.send("El usuario ya tiene compartida esta cuenta");
                             } else {
+                                console.log("else");
                                 gestorBD.usuarioPoseeCuenta(criterioUsuarioCompartir, iban ,function(usuarios){
-                                    if ( usuarios == null ){
-                                        res.send(respuesta);
+                                    console.log("usuarioPoseeCuenta");
+                                    if ( usuarios[0] == null ){
+                                        res.send("Error al compartir la cuenta, vuelva a intentarlo más tarde");
                                     } else {
-                                        res.redirect("/cuentas?mensaje=Cuenta compartida correctamente");
+                                        res.send(usuarios);
+                                        //res.redirect("/cuentas?mensaje=Cuenta compartida correctamente");
                                     }
                                 });
                             }
@@ -152,23 +156,27 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     //////////////////////////// CUENTA PRINCIPAL /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.get('/cuenta/principal/:iban', function (req, res) {
-        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
+    app.post('/cuenta/principal/:iban', function (req, res) {
+        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
         var iban = req.params.iban;
     
-        gestorBD.usuarioCuentas(criterioUsuario, iban ,function(cuentas){
+        gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
 			if (cuentas == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
-                gestorBD.usuarioQuitarPrincipal(criterioUsuario ,function(cuentas){
-                    if (cuentas == null) {
+                gestorBD.usuarioCambiarPrincipal(criterioUsuario, iban, function(cuentas){
+                    if (cuentas != true) {
                         res.send("Ha ocurrido un error procesando su operacion");
                     } else {
-                        gestorBD.usuarioPonerPrincipal(criterioUsuario, iban ,function(cuentas){
-                            if (cuentas == null) {
-                                res.send("Ha ocurrido un error procesando su operacion");
+                        gestorBD.usuarioCuentas(criterioUsuario, function(cuentas){
+                            if ( cuentas[0] == null ){
+                                res.send("Usuario sin cuentas");
                             } else {
-                               
+                                var respuesta = swig.renderFile('views/cuentas.html', 
+                                {
+                                    cuentas : cuentas
+                                });
+                                res.send(respuesta);
                             }
                         });
                     }
@@ -190,7 +198,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var concepto = req.body.concepto;
         var cantidad = req.body.cantidad;
 
-        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
+        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var criterioCuenta = { "iban" : req.params.iban };
 
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban, function(cuentas){
