@@ -12,7 +12,7 @@
     	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"></button><span> Marcar como predeterminada</span></form>
    	{% endif%}
     <div id="info_cuenta_options">
-        <button id="share_account" class="btn btn-default" onclick="compartirCuenta()"> COMPARTIR CUENTA</button>
+        <button id="share_account" class="btn btn-default" onclick="mostrarCompartirCuenta()"> COMPARTIR CUENTA</button>
         <button id="transferencia_button" class="btn btn-default" onclick="hacerTransferencia()">TRANSFERENCIA</button>
     </div>
 </div>
@@ -65,6 +65,28 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="noHacerTransferencia()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModalCompartir" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Compartir</h4>
+        </div>
+        <div class="modal-body">
+        <form method="post" action='/cuenta/compartir/{{cuenta.iban}}'>
+          <label for="usuarioCompartir">Usuario al cual compartir la cuenta:</label>
+          <input id="usuarioCompartir" type="text" name="usuarioCompartir" placeholder="Username"/>
+          <button class="btn" type="submit">COMPARTIR</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="noCompartirCuenta()">Close</button>
         </div>
       </div>
     </div>

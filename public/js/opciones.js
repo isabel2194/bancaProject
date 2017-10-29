@@ -23,21 +23,14 @@ function hacerTransferencia() {
 	$("#myModal").addClass("show");
 }
 
-function compartirCuenta() {
-	$("#myModal").removeClass("fade");
-	$("#myModal").addClass("show");
+function mostrarCompartirCuenta() {
+	$("#myModalCompartir").removeClass("fade");
+	$("#myModalCompartir").addClass("show");
 }
 
 function noCompartirCuenta() {
 	$("#myModalCompartir").removeClass("show");
 	$("#myModalCompartir").addClass("fade");
-}
-
-
-function compartirCuenta(iban, principalActual) {
-	if (prin) {
-		$.post("/cuenta/principal/" + iban);
-	}
 }
 
 function eliminarTarjeta(numero){
