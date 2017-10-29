@@ -11,11 +11,12 @@ module.exports = function(app, swig, gestorBD){
         var perdida = false;
         var activa = false;
 
-        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
+        var criterioUsuario = { "nombreUsuario" : req.params.nombreUsuario };
         var criterioTarjeta = { "numero" : numero };	
         var criterioCuenta = { "iban" : iban  };	
 
         //la cuenta con el iban ya existe?
+        console.log();
         gestorBD.obtenerCuentas(criterioCuenta ,function(cuentas){
             if ( cuentas != null ){
                 gestorBD.obtenerTarjetas(criterioTarjeta,function(tarjetas){
@@ -27,19 +28,21 @@ module.exports = function(app, swig, gestorBD){
                         }
                         gestorBD.insertarTarjeta(tarjeta, function(id) {
                             if (id == null){
-                                res.redirect("/crearTarjeta?mensaje=Error al crear la tarjeta");
+                                res.send("error al crear la tarjeta");
+                                //res.redirect("/crearTarjeta?mensaje=Error al crear la tarjeta");
                             } else {
                                 //crear asociacion de cuenta con usuario que la crea
                                 gestorBD.cuentaPoseeTarjeta(criterioCuenta, numero ,function(usuarios){
-                                        if ( usuarios == null ){
-                                            res.send(respuesta);
-                                        } else {
-                                            gestorBD.usuarioPoseeTarjeta(criterioUsuario, numero ,function(usuarios){
-                                                if ( usuarios == null ){
-                                                    res.send(respuesta);
-                                                } else {
-                                                    res.redirect("/tarjetas?mensaje=Nueva tarjeta creada");
-                                                }
+                                    if ( usuarios == null ){
+                                        res.send(respuesta);
+                                    } else {
+                                        gestorBD.usuarioPoseeTarjeta(criterioUsuario, numero ,function(usuarios){
+                                            if ( usuarios == null ){
+                                                res.send(respuesta);
+                                            } else {
+                                                res.send("nueva tarjeta creada");
+                                                //res.redirect("/tarjetas?mensaje=Nueva tarjeta creada");
+                                            }
                                         });
                                     }
                                 });

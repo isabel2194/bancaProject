@@ -211,7 +211,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                 var cantidadInt = parseInt(cantidad);
 
                 if(saldo >= cantidadInt){
-                    var transferencia = {
+                    var movimiento = {
                         fecha : fecha,
                         concepto : concepto,
                         cantidad : cantidadInt*(-1)
@@ -219,7 +219,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 
                     saldo = saldo - cantidadInt;
 
-                    gestorBD.realizarTransferencia(criterioCuenta, transferencia, function(cuentas){
+                    gestorBD.realizarTransferencia(criterioCuenta, movimiento, function(cuentas){
                         if (cuentas == null) {
                             res.send("Error al realizar la transferencia");
                         } else {

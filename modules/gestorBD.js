@@ -412,7 +412,7 @@ module.exports = {
     /////////////////////////// TRANSFERENCIA ///////////////////////////
     /////////////////////////////////////////////////////////////////////
 
-    realizarTransferencia: function(criterioCuenta, transferencia, funcionCallback) {
+    realizarTransferencia: function(criterioCuenta, movimiento, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -420,7 +420,7 @@ module.exports = {
                 var collection = db.collection('cuentas');
             
                 collection.update(criterioCuenta, 
-                        { $push: { "transferencias" : transferencia } }  , 
+                        { $push: { "movimientos" : movimiento } }  , 
                         function(err, result) {
                             
                     if (err) {
