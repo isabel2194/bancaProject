@@ -97,7 +97,7 @@ module.exports = function(app, swig, gestorBD){
                     {
                         usuario : true
                     });
-                    req.session.usuario = nombreUsuario;
+                    req.session.usuario = criterio.nombreUsuario;
                     res.send(respuesta);
                     console.log("usuario identificado");
                 }

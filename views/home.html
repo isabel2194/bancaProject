@@ -4,9 +4,9 @@
 <div id="div_crear_cuenta" class="col-xs-12">
 	<button class="btn btn-default btn-lg"
 		onclick="$('#form_crear_cuenta').show()">Crear cuenta</button>
-	<form id="form_crear_cuenta" method="post" action="/addAccount">
+	<form id="form_crear_cuenta" method="post" action="/cuenta/crear">
 		<div class="form-group">
-			<label>Saldo</label> <input type="text" class="form-control"
+			<label>Saldo</label> <input name="saldo" type="text" class="form-control"
 				placeholder="Saldo" />
 			<button class="btn btn-default btn-lg" type="submit">Crear</button>
 		</div>

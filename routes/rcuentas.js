@@ -64,7 +64,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get('/cuentas', function (req, res) {
-        var nombreUsuario = req.sesssion.nombreUsuario;
+        var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
         console.log(nombreUsuario);
 
@@ -72,14 +72,14 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 			if ( cuentas[0] == null ){
 				res.send("Usuario sin cuentas");
 			} else {
-                res.send(cuentas);
-                /*
+                //res.send(cuentas);
+                
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
 					cuentas : cuentas
 				});
                 res.send(respuesta);
-                */
+                
 			}
 		});
     });
