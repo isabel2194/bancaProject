@@ -156,7 +156,8 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     //////////////////////////// CUENTA PRINCIPAL /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.post('/cuenta/principal/:iban', function (req, res) {
+    app.get('/cuenta/principal/:iban', function (req, res) {
+        console.log("/cuenta/principal/ + req.params.iban");
         var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
         var iban = req.params.iban;
     

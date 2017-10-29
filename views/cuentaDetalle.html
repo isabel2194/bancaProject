@@ -5,7 +5,7 @@
     <p>IBAN: <span id="info_cuenta_iban">{{ cuenta.iban }}</span></p>
     <p>Usuarios: <span id="info_cuenta_usuarios">{{ cuenta.usuarios }}</span></p>
     <p>Saldo actual: <span id="info_cuenta_saldo">{{ cuenta.saldo }}</span></p>
-    <button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" method="get" action='/cuenta/principal:{{ cuenta.iban }}'></button><span> Marcar como predeterminada</span>
+    <button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" method="get" action='/cuenta/principal/{{ cuenta.iban }}'></button><span> Marcar como predeterminada</span>
     <div id="info_cuenta_options">
         <button id="share_account" class="btn btn-default" method="get" action='/cuenta/compartir:{{ cuenta.iban }}'> COMPARTIR CUENTA</button>
         <button id="transferencia_button" class="btn btn-default" onclick="hacerTranferencia()">TRANSFERENCIA</button>
@@ -13,7 +13,7 @@
 </div>
 <table class="table table-hover">
     <tr>
-        <th>Fecha</th>
+        <th >Fecha</th>
         <th>Concepto</th>
         <th>Cantidad</th>
     </tr>
