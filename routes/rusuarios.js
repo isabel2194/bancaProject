@@ -122,36 +122,6 @@ module.exports = function(app, swig, gestorBD){
     	});
 		res.send(respuesta);
 	});
-    
-    app.put("/editarUsuario/:nombreUsuario", function(req, res) {
-        var criterio = { "nombreUsuario" : req.params.nombreUsuario  };	
-        
-        gestorBD.obtenerUsuarios(criterio,function(usuarios){
-            if ( usuarios[0] != null){
-                var usuario = {
-                    DNI : req.body.dni,
-                    movil : req.body.movil,
-                    nombre : req.body.nombre,
-                    apellidos : req.body.apellidos,
-                    direccion : req.body.direccion,
-                    fechaNacimiento : req.body.fechaNacimiento,
-                    email : req.body.email
-                }
-                gestorBD.modificarUsuario(criterio, usuario, function(id) {
-                    if (id == null){
-                        res.send("Error al editar el usuario");
-                        //res.redirect("/registrarse?mensaje=Error al editar el usuario");
-                    } else {
-                        res.send("Usuario editado correctamente")
-                        //res.redirect("/identificarse?mensaje=Usuario editado correctamente");
-                    }
-                });
-            } else {
-                res.send("El usuario con ese identificador no existe");
-                //res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
-            }
-        });
-    });
 
     app.post("/editarPassUsuario/:nombreUsuario", function(req, res) {
         var password1 = req.body.password;

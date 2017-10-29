@@ -4,11 +4,13 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     //////////////////////////////// CREAR CUENTA /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.get('/cuenta/crear', function (req, res) {
-        res.send("crear cuenta")
-		//var respuesta = swig.renderFile('view/agregarCuenta.html', {});
-        //res.send(respuesta);
-    });
+    app.get("/home", function(req, res){
+        var respuesta = swig.renderFile('views/home.html', 
+        {
+            usuario:true
+        });
+        res.send(respuesta);
+    })
 
     app.post("/cuenta/crear", function(req, res) {
         console.log("/cuenta/crear");
@@ -46,15 +48,17 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                             if ( usuarios == null ){
                                 res.send(respuesta);
                             } else {
-                                res.send("Nueva cuenta creada");
-                                //res.redirect("/cuentas?mensaje=Nueva cuenta creada");
+                                res.redirect("/cuentas" +
+                                "?mensaje=Cuenta creada correctamente"+
+                                "&tipoMensaje=alert-info ");
                             }
                         });
                     }
                 });
             } else {
-                res.send("La cuenta con ese iban ya existe, vuelve a probar mas tarde");
-                //res.redirect("/cuenta/crear?mensaje=La cuenta con ese IBAN ya existe");
+                res.redirect("/home" +
+                "?mensaje=La cuenta con ese iban ya existe"+
+                "&tipoMensaje=alert-danger ");
             }
         });
     });
@@ -62,14 +66,18 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////// CUENTAS USUARIO /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-
     app.get('/cuentas', function (req, res) {
         var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
 
         gestorBD.usuarioCuentas(criterio, function(cuentas){
 			if ( cuentas[0] == null ){
-				res.send("Usuario sin cuentas");
+				var respuesta = swig.renderFile('views/cuentas.html', 
+				{
+					cuentas : [],
+					usuario:true
+				});
+                res.send(respuesta);
 			} else {                
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
@@ -77,7 +85,6 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 					usuario:true
 				});
                 res.send(respuesta);
-                
 			}
 		});
     });
@@ -139,8 +146,9 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                     if ( usuarios[0] == null ){
                                         res.send("Error al compartir la cuenta, vuelva a intentarlo más tarde");
                                     } else {
-                                        res.send(usuarios);
-                                        //res.redirect("/cuentas?mensaje=Cuenta compartida correctamente");
+                                        res.redirect("/cuentas" +
+                                        "?mensaje=Cuenta compartida correctamente"+
+                                        "&tipoMensaje=alert-info");
                                     }
                                 });
                             }
@@ -171,19 +179,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                     if (cuentas != true) {
                         res.send("Ha ocurrido un error procesando su operacion");
                     } else {
-                        console.log("usuarioCuentas");
-                        gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
-                            if (cuentas[0] == null) {
-                                res.send("La cuenta no pertenece al usuario");
-                            } else {
-                                var respuesta = swig.renderFile('views/cuentaDetalle.html', 
-                                {
-                                    cuenta : cuentas[0],
-                                    usuario:true
-                                });
-                                res.send(respuesta);
-                            }
-                        });
+                        res.redirect("/cuenta/" + iban + "?mensaje=Cuenta editada correctamente&tipoMensaje=alert-info");
                     }
                 });
             }

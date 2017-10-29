@@ -13,9 +13,24 @@ function hacerFavorita() {
 	}
 }
 
+function noHacerTransferencia(){
+	$("#myModal").removeClass("show");
+	$("#myModal").addClass("fade");
+}
+
 function hacerTransferencia() {
 	$("#myModal").removeClass("fade");
 	$("#myModal").addClass("show");
+}
+
+function compartirCuenta() {
+	$("#myModal").removeClass("fade");
+	$("#myModal").addClass("show");
+}
+
+function noCompartirCuenta() {
+	$("#myModalCompartir").removeClass("show");
+	$("#myModalCompartir").addClass("fade");
 }
 
 
@@ -23,6 +38,11 @@ function compartirCuenta(iban, principalActual) {
 	if (prin) {
 		$.post("/cuenta/principal/" + iban);
 	}
+}
+
+function eliminarTarjeta(numero){
+	console.log("eliminar");
+	$.delete('/tarjeta/' + tarjeta.numero, {});
 }
 
 $('#activaTarjeta').change(function() {

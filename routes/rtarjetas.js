@@ -4,10 +4,11 @@ module.exports = function(app, swig, gestorBD){
     /////////////////////////////// CREAR TARJETAS ////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.post("/tarjetas/crear/:iban", function(req, res) {
+    app.post("/tarjetas/crear", function(req, res) {
         var iban = req.params.iban;
 
         var numero = req.body.numero;
+        var iban = req.body.iban;
         var perdida = false;
         var activa = false;
 
@@ -40,8 +41,7 @@ module.exports = function(app, swig, gestorBD){
                                             if ( usuarios == null ){
                                                 res.send(respuesta);
                                             } else {
-                                                res.send("nueva tarjeta creada");
-                                                //res.redirect("/tarjetas?mensaje=Nueva tarjeta creada");
+                                                res.redirect("/tarjetas");
                                             }
                                         });
                                     }
@@ -134,6 +134,7 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.delete("/tarjeta/:numero", function(req, res) {
+        console.log("delete tarjeta");
         var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
 
@@ -154,20 +155,7 @@ module.exports = function(app, swig, gestorBD){
                                 //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
                                 
                             } else {
-                                gestorBD.usuarioTarjetas(criterioUsuario, function(tarjetas){
-                                    if ( tarjetas[0] == null){
-                                        res.send(respuesta);
-                                    } else {
-                                        console.log(tarjetas);
-                                        //res.send(tarjetas);
-                                        var respuesta = swig.renderFile('views/tarjetas.html', 
-                                        {
-                                            tarjetas : tarjetas
-                                        });
-                                        res.send(respuesta);
-                                    }
-                                });
-                                //res.redirect("/tarjetas?mensaje=Tarjeta editada correctamente");
+                                res.redirect("/tarjetas");
                             }
                         });
                     }

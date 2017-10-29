@@ -40,16 +40,14 @@ routerUsuarioSession.use(function(req, res, next) {
 });
 
 //Aplicar routerUsuarioSession
-//usuario
 
-//app.use("/editarUsuario/:nombreUsuario", routerUsuarioSession);
-//app.use("/editarPassUsuario/:nombreUsuario", routerUsuarioSession);
-//app.use("/cerrarSesion", routerUsuarioSession);
+app.use("/editarPassUsuario/:nombreUsuario", routerUsuarioSession);
+app.use("/cerrarSesion", routerUsuarioSession);
 
 //cuenta
-//comprobar si es asi
-//app.use("/cuenta*",routerUsuarioSession);
-//app.use("/tarjeta*", routerUsuarioSession);
+app.use("/home",routerUsuarioSession);
+app.use("/cuenta*",routerUsuarioSession);
+app.use("/tarjeta*", routerUsuarioSession);
 
 app.use(express.static('public'));
 

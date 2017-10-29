@@ -5,9 +5,9 @@
     {% for tarjeta in tarjetas %}
     <tr>
         <td>Nº de tarjeta: {{ tarjeta.numero }}</td>
-        <td><input id="activaTarjeta" type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
+        <td><input data-toggle="toggle" data-on="Habilitada" data-off="Deshabilitada" type="checkbox"></td>
         <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Dar de baja</button></form></td>
-        <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Pérdida/robo</button></form></td>
+        <td><button type="submit" onclick='eliminarTarjeta({{ tarjeta.numero }})'>Pérdida/robo</button></form></td>
     </tr>
     {%endfor%}
 </table>

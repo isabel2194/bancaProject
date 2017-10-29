@@ -6,13 +6,13 @@
     <p>Usuarios: <span id="info_cuenta_usuarios">{{ cuenta.usuarios }}</span></p>
     <p>Saldo actual: <span id="info_cuenta_saldo">{{ cuenta.saldo }}</span></p>
     {% if cuenta.principal %}
-    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit"></button></form><span> Marcar como predeterminada</span>
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit" disabled></button><span> Cuenta predeterminada</span></form>
     {% endif%}
     {% if cuenta.principal==false %}
-    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"></button></form><span> Marcar como predeterminada</span>
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"></button><span> Marcar como predeterminada</span></form>
    	{% endif%}
     <div id="info_cuenta_options">
-        <button id="share_account" class="btn btn-default" method="get" action='/cuenta/compartir:{{ cuenta.iban }}'> COMPARTIR CUENTA</button>
+        <button id="share_account" class="btn btn-default" onclick="compartirCuenta()"> COMPARTIR CUENTA</button>
         <button id="transferencia_button" class="btn btn-default" onclick="hacerTransferencia()">TRANSFERENCIA</button>
     </div>
 </div>
@@ -32,6 +32,31 @@
 </table>
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Transferencia</h4>
+        </div>
+        <div class="modal-body">
+        <form method="post" action='/cuenta/transferencia/{{cuenta.iban}}'>
+          <label for="concepto">Concepto</label>
+          <input id="concepto" type="text" name="concepto" placeholder="Concepto"/>
+          <label for="cantidad">Cantidad</label>
+          <input id="cantidad" type="number" name="cantidad" placeholder="Cantidad"/>
+          <button class="btn" type="submit">REALIZAR TRANSFERENCIA</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="noHacerTransferencia()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="myModalCompartir" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">

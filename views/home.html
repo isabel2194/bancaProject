@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block titulo %} Bank - Página principal {%endblock %} 
+{% block titulo %} Bank - Pï¿½gina principal {%endblock %} 
 {%block contenido_principal %}
 <div id="div_crear_cuenta" class="col-xs-12">
 	<button class="btn btn-default btn-lg"
@@ -14,14 +14,14 @@
 </div>
 <div id="div_anadir_tarjeta" class="col-xs-12">
 	<button class="btn btn-default btn-lg"
-		onclick="$('#form_anadir_tarjeta').show()">Añadir tarjeta</button>
+		onclick="$('#form_anadir_tarjeta').show()">Aï¿½adir tarjeta</button>
 	<form id="form_anadir_tarjeta" method="post" action="/tarjetas/crear">
 		<div class="form-group">
-			<label>Número</label> <input type="text" class="form-control"
-				placeholder="Número de tarjeta" /> 
+			<label>Nï¿½mero</label> <input type="text" class="form-control"
+				placeholder="Nï¿½mero de tarjeta" name="numero"/> 
 			<label>IBAN</label> <input type="text" class="form-control"
-				placeholder="Número de cuenta asociada" />
-			<button class="btn btn-default btn-lg" type="submit">Añadir</button>
+				placeholder="Nï¿½mero de cuenta asociada" name="iban" />
+			<button class="btn btn-default btn-lg" type="submit">Aï¿½adir</button>
 		</div>
 	</form>
 </div>
