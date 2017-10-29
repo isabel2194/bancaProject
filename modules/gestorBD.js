@@ -103,7 +103,6 @@ module.exports = {
             }
         });
     }
-
     ,usuarioCuentas: function(criterioUsuario, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -284,6 +283,23 @@ module.exports = {
             }
         });
     },
+    insertarTarjeta : function(tarjeta, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('tarjetas');
+                collection.insert(tarjeta, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
     cuentaPoseeTarjeta: function(criterioCuenta, numero, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -361,7 +377,7 @@ module.exports = {
             }
         });
     },
-    usuarioTarjetas: function(criterioUsuario, numero, funcionCallback) {
+    usuarioTarjetasNumero: function(criterioUsuario, numero, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -373,13 +389,14 @@ module.exports = {
                         funcionCallback(null);
                     } else {
                         var ArrayIds = usuarios[0].tarjetas;
-                    
+
                         if (ArrayIds == null){ // Puede no tener compras
                             funcionCallback( {} );
                             db.close();
                             return;
-                        }
-                        if($.inArray(numero, ArrayIds)){
+                        } 
+                        var tarjeta = ArrayIds.find(o => o == numero);
+                        if(tarjeta != undefined){
                             funcionCallback(true);
                         }
                         else{
