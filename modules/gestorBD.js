@@ -424,6 +424,68 @@ module.exports = {
             }
         });
     },
+    eliminarTarjeta : function(criterio, funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                
+                var collection = db.collection('tarjetas');
+                collection.remove(criterio, function(err, tarjetas) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(tarjetas);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    eliminarTarjetaUsuario: function(criterioUsuario, numeroTarjeta, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                
+                var collection = db.collection('usuarios');
+                collection.find(criterioUsuario).toArray(function(err, usuarios) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        var usuario = usuarios[0];
+                    
+                        if (usuario.tarjetas == null){ // Puede no tener compras
+                            funcionCallback( {} );
+                            db.close();
+                            return;
+                        }
+
+                        console.log(usuario.tarjetas);
+
+                        var nuevoArray = [];
+                        usuario.tarjetas.forEach(function(element) {
+                            if(element != numeroTarjeta){
+                                nuevoArray.push(element);
+                            }
+                        }, this);
+
+                        usuario.tarjetas = nuevoArray;
+
+                        var collection = db.collection('usuarios');
+                        collection.update(criterioUsuario, {$set: usuario}, function(err, result) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(result);
+                            }
+                            db.close();
+                        });
+                    }
+                });
+            }
+        });
+    },
 
     /////////////////////////////////////////////////////////////////////
     /////////////////////////// TRANSFERENCIA ///////////////////////////

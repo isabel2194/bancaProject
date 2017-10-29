@@ -11,7 +11,7 @@ module.exports = function(app, swig, gestorBD){
         var perdida = false;
         var activa = false;
 
-        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
+        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
         var criterioTarjeta = { "numero" : numero };	
         var criterioCuenta = { "iban" : iban  };	
 
@@ -119,5 +119,55 @@ module.exports = function(app, swig, gestorBD){
                 //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
             }
         });
+    });
+
+    ///////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// BORRADO ///////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
+    app.delete("/tarjeta/:numero", function(req, res) {
+        var usuario = req.body.nombreUsuario;
+        var numeroTarjeta = req.params.numero;
+
+        var criterioUsuario = { "nombreUsuario" : usuario };
+        var criterioTarjeta = { "numero" : numeroTarjeta  };	
+
+        gestorBD.usuarioTarjetasNumero(criterioUsuario, numeroTarjeta, function(tarjetas){
+            if ( tarjetas != null ){
+                gestorBD.eliminarTarjeta(criterioTarjeta, function(id) {
+                    if (id == null){
+                        res.send("Error al eliminar la tarjeta");
+                        //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
+                        
+                    } else {
+                        gestorBD.eliminarTarjetaUsuario(criterioUsuario, numeroTarjeta, function(id) {
+                            if (id == null){
+                                res.send("Error al eliminar la tarjeta");
+                                //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
+                                
+                            } else {
+                                gestorBD.usuarioTarjetas(criterioUsuario, function(tarjetas){
+                                    if ( tarjetas[0] == null){
+                                        res.send(respuesta);
+                                    } else {
+                                        console.log(tarjetas);
+                                        //res.send(tarjetas);
+                                        var respuesta = swig.renderFile('views/tarjetas.html', 
+                                        {
+                                            tarjetas : tarjetas
+                                        });
+                                        res.send(respuesta);
+                                    }
+                                });
+                                //res.redirect("/tarjetas?mensaje=Tarjeta editada correctamente");
+                            }
+                        });
+                    }
+                });
+            } else {
+                res.send("Tarjeta para ese usuario no existe");
+                //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
+            }
+        }); 
     });
 }
