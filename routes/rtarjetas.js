@@ -76,7 +76,8 @@ module.exports = function(app, swig, gestorBD){
                 //res.send(tarjetas);
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{
-					tarjetas : tarjetas
+					tarjetas : tarjetas,
+					usuario:true
 				});
                 res.send(respuesta);
 			}

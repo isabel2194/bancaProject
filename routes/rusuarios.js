@@ -4,6 +4,8 @@ module.exports = function(app, swig, gestorBD){
     ////////////////////////////////////////////////////////////////////////////////
 
     app.get("/registrarse", function(req, res) {
+    	var respuesta = swig.renderFile('views/registro.html', {});
+		res.send(respuesta);
 	});
 
     app.post("/registrarse", function(req, res) {

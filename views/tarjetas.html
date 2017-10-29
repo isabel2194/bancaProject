@@ -2,18 +2,12 @@
 {% block titulo %} Bank - Tarjetas {% endblock %} 
 {%block contenido_principal %}
 <table class="table table-hover">
-    <tr>
-        <td>Tarjeta: 1654 6565 1654 1236</td>
-        <td><input type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
-        <td><a href="">Dar de baja</a></td>
-        <td><a href="">Pérdida/robo</a></td>
-    </tr>
     {% for tarjeta in tarjetas %}
     <tr>
-        <td>{%tarjeta.numero%}</td>
-        <td><input type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
-        <td><a href="">Dar de baja</a></td>
-        <td><a href="">Pérdida/robo</a></td>
+        <td>Nº de tarjeta: {{ tarjeta.numero }}</td>
+        <td><input id="activaTarjeta" type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
+        <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Dar de baja</button></form></td>
+        <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Pérdida/robo</button></form></td>
     </tr>
     {%endfor%}
 </table>

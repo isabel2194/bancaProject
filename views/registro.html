@@ -1,50 +1,51 @@
 {% extends "base.html" %} 
-{% block titulo %} Bank - Regístrate {%endblock %} 
+{% block titulo %} Bank - RegÃstrate {%endblock %} 
 {%block contenido_principal %}
 <main class="col-xs-12">
-<form id="form_registro" method="post" action="/addUser">
+<h1>Registro</h1>
+<form id="form_registro" method="post" action="/registrarse">
 	<div class="form-group">
 		<label>Nombre</label> <input type="text" class="form-control"
-			placeholder="Introduce tu nombre" />
+			placeholder="Introduce tu nombre" name="nombre" required/>
 	</div>
 	<div class="form-group">
 		<label>Apellidos</label> <input type="text" class="form-control"
-			placeholder="Introduce tus apellidos" />
+			placeholder="Introduce tus apellidos" name="apellidos" required/>
 	</div>
 	<div class="form-group">
 		<label>NIF</label> <input type="text" class="form-control"
-			placeholder="NIF" />
+			placeholder="NIF" name="dni" required/>
 	</div>
 	<div class="form-group">
 		<label>Fecha de nacimiento</label> <input class="form-control"
-			type="date" placeholder="dd/MM/yyyy" />
+			type="date" placeholder="dd/MM/yyyy" name="fechaNacimiento" required/>
 	</div>
 	<div class="form-group">
 		<label>Teléfono</label> <input type="tel" class="form-control"
-			placeholder="+00 000000000" />
+			placeholder="+00 000000000" name="movil" required/>
 	</div>
 	<div class="form-group">
 		<label>DirecciÃ³n</label> <input type="text" class="form-control"
-			placeholder="" />
+			placeholder="Introduzca su dirección" name="direccion" required/>
 	</div>
 	<div class="form-group">
 		<label>Email</label> <input type="email" class="form-control"
-			placeholder="email@email.com" />
+			placeholder="email@email.com" name="email" required/>
 	</div>
 	<div class="form-group">
 		<label>Nombre de usuario</label> <input type="text"
-			class="form-control" placeholder="Introduce tu nombre de usuario" />
+			class="form-control" placeholder="Introduce tu nombre de usuario" name="nombreUsuario" required/>
 	</div>
 	<div class="form-group">
 		<label>Contraseña</label> <input type="password" class="form-control"
-			placeholder="password" />
+			placeholder="password" name="password" required/>
 	</div>
 	<div class="form-group">
 		<label>Repite la contraseña</label> <input type="password"
-			class="form-control" placeholder="password" />
+			class="form-control" placeholder="password" required/>
 	</div>
-	<button type="submit" class="btn btn-default">Registrarse</button>
-	<span><a href="">Atrás</a></span>
+	<button type="submit" class="btn btn-default">Registrarse</button><span><a href="/">  AtrÃ¡s</a></span>
 </form>
+
 </main>
 {% endblock %}
