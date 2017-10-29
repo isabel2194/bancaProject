@@ -11,7 +11,7 @@ module.exports = function(app, swig, gestorBD){
         var perdida = false;
         var activa = false;
 
-        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
+        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var criterioTarjeta = { "numero" : numero };	
         var criterioCuenta = { "iban" : iban  };	
 
@@ -89,7 +89,7 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.put("/tarjeta/:numero", function(req, res) {
-        var usuario = req.body.nombreUsuario;
+        var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
         var perdida = req.body.perdida;
         var activa = req.body.activa;
@@ -126,7 +126,7 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.delete("/tarjeta/:numero", function(req, res) {
-        var usuario = req.body.nombreUsuario;
+        var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
 
         var criterioUsuario = { "nombreUsuario" : usuario };
