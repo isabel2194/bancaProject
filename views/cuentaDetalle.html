@@ -3,7 +3,6 @@
 {%block contenido_principal %}
 <div id="info_cuenta" class="col-xs-12">
     <p>IBAN: <span id="info_cuenta_iban">{{ cuenta.iban }}</span></p>
-    <p>Usuarios: <span id="info_cuenta_usuarios">{{ cuenta.usuarios }}</span></p>
     <p>Saldo actual: <span id="info_cuenta_saldo">{{ cuenta.saldo }}</span></p>
     {% if cuenta.principal %}
     	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit" disabled></button><span> Cuenta predeterminada</span></form>

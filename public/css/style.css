@@ -138,6 +138,31 @@ body > div{
     right: 0;
 }
 
+.btn{
+	margin:10px 0;	
+}
+
+#busqueda_cuentas .btn{
+	margin:0;
+}
+
+#busqueda_movimientos .btn{
+	margin-left: 5px;
+    border-radius: 5px;
+}
+
+#busqueda_movimientos input{
+	border-radius:5px;
+}
+
+#busqueda_cuentas, #busqueda_movimientos{
+	padding:15px;
+}
+
+.toggle-off, .toggle-on, .toggle-handle{
+	margin:0 auto;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
@@ -146,6 +171,9 @@ body > div{
     #login-dp .bottom{
         background-color: inherit;
         border-top:0 none;
+    }
+    .box-white{
+    	display:none;
     }
 }
 /*Fin menu login dropdown*/

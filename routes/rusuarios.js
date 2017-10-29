@@ -119,7 +119,8 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
     app.get("/perfil", function(req, res) {
     	var respuesta = swig.renderFile('views/perfil.html', {
-    		nombreUsuario: req.session.nombreUsuario
+    		nombreUsuario: req.session.nombreUsuario,
+    		usuario: true
     	});
 		res.send(respuesta);
 	});
