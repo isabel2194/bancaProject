@@ -1,6 +1,19 @@
 {% extends "base.html" %} 
 {% block titulo %} Bank - Cuentas {% endblock %} 
 {%block contenido_principal %}
+<div id="busqueda_cuentas" class="col-xs-12">
+<form method="get" action="/cuentas" >
+		<div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
+				<input type="text" class="search-query form-control"
+					placeholder="IBAN de la cuenta" name="busqueda"/>
+				    <span class="input-group-btn">
+					<button class="btn" type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+		</div>
+</form>
+</div>
 <table class="table table-hover">
     {% for cuenta in cuentas %}
     <tr>
