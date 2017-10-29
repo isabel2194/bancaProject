@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var routerUsuarioSession = express.Router(); 
 routerUsuarioSession.use(function(req, res, next) {
 	 console.log("routerUsuarioSession");
-	  if ( req.session.usuario ) {
+	  if ( req.session.nombreUsuario ) {
 	    // dejamos correr la petición
 	     next();
 	  } else {

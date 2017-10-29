@@ -17,12 +17,12 @@
     </div>
 </div>
 <div id="busqueda_movimientos" class="col-xs-12">
-<form method="get" action="/cuenta/movimientos" >
+<form method="get" action="/cuenta/{{ cuenta.iban }}" >
 		<div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
 				<input type="text" class="search-query form-control"
-					placeholder="Nombre del movimiento" name="movimientoBusqueda"/>
+					placeholder="Concepto" name="movimientoBusqueda"/>
 					<input type="date" class="search-query form-control"
-					placeholder="Fecha del movimiento" name="fechaMovimiento"/>
+					placeholder="Fecha" name="fechaMovimiento"/>
 				    <span class="input-group-btn">
 					<button class="btn" type="submit">
 						<span class="glyphicon glyphicon-search"></span>
@@ -69,7 +69,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="modal fade" id="myModalCompartir" role="dialog">
     <div class="modal-dialog">

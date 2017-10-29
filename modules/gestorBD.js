@@ -103,7 +103,7 @@ module.exports = {
             }
         });
     }
-    ,usuarioCuentas: function(criterioUsuario, funcionCallback) {
+    ,usuarioCuentas: function(criterioUsuario, busqueda, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -120,14 +120,24 @@ module.exports = {
                             db.close();
                             return;
                         }
-                            
+
                         var collection = db.collection('cuentas');
                         collection.find({ "iban" : { $in: ArrayIds } })
                             .toArray(function(err, cuentas) {
                                 if (err) {
                                     funcionCallback(null);
                                 } else {
-                                    funcionCallback(cuentas);
+                                    if(busqueda != null){
+                                        var nuevoArray = [];
+                                        cuentas.forEach(function(element) {
+                                            if(element.iban.indexOf(busqueda) > -1){
+                                                nuevoArray.push(element);
+                                            }
+                                        }, this);
+                                        funcionCallback(nuevoArray);
+                                    }else{
+                                        funcionCallback(cuentas);
+                                    }
                                 }
                                 db.close();
                         });
@@ -136,7 +146,7 @@ module.exports = {
             }
         });
     }
-    ,usuarioCuentasIban: function(criterioUsuario, iban, funcionCallback) {
+    ,usuarioCuentasIban: function(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -158,11 +168,28 @@ module.exports = {
                         if(ArrayIds.find(o => o === iban)){
                             var collection2 = db.collection('cuentas');
                             collection2.find({ "iban" : iban })
-                                .toArray(function(err, cuentas) {
-                                    
+                                .toArray(function(err, cuentas) {                                    
                                 if (err) {
                                     funcionCallback(null);
                                 } else {
+                                    if(movimientoBusqueda != null){
+                                        var nuevoArray = [];
+                                        cuentas[0].movimientos.forEach(function(element) {
+                                            if(element.concepto.indexOf(movimientoBusqueda) > -1){
+                                                nuevoArray.push(element);
+                                            }
+                                        }, this);
+                                        cuentas[0].movimientos = nuevoArray;
+                                    }
+                                    if(fechaMovimiento != null){
+                                        var nuevoArray = [];
+                                        cuentas[0].movimientos.forEach(function(element) {
+                                            if(element.fecha.indexOf(fechaMovimiento) > -1){
+                                                nuevoArray.push(element);
+                                            }
+                                        }, this);
+                                        cuentas[0].movimientos = nuevoArray;
+                                    }
                                     funcionCallback(cuentas);
                                 }
                                 db.close();
@@ -460,9 +487,6 @@ module.exports = {
                             db.close();
                             return;
                         }
-
-                        console.log(usuario.tarjetas);
-
                         var nuevoArray = [];
                         usuario.tarjetas.forEach(function(element) {
                             if(element != numeroTarjeta){

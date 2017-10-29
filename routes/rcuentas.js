@@ -68,14 +68,15 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
     app.get('/cuentas', function (req, res) {
         var nombreUsuario = req.session.nombreUsuario;
+        var criterio = { "nombreUsuario" : nombreUsuario} ;
+
+        var busqueda = null;
+
         if( req.query.busqueda != null ){
-        	var criterio = { "nombreUsuario" : nombreUsuario,
-        		"iban" : {$regex : ".*"+req.query.busqueda+".*"} };
-        }else{
-        	var criterio = { "nombreUsuario" : nombreUsuario}
+        	busqueda = req.query.busqueda;
         }
 
-        gestorBD.usuarioCuentas(criterio, function(cuentas){
+        gestorBD.usuarioCuentas(criterio, busqueda, function(cuentas){
 			if ( cuentas[0] == null ){
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
@@ -101,9 +102,22 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     app.get('/cuenta/:iban', function (req, res) {
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
-	
+
+        var movimientoBusqueda = null;
+        var fechaMovimiento = null;
         
-		gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+        if( req.query.movimientoBusqueda != null ){
+            movimientoBusqueda = req.query.movimientoBusqueda;
+        }
+        if( req.query.fechaMovimiento != null ){
+            fechaMovimiento = req.query.fechaMovimiento;
+        }	
+
+        console.log(iban);
+        console.log(movimientoBusqueda);
+        console.log(fechaMovimiento);
+        
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, function(cuentas){
 			if (cuentas[0] == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
@@ -133,14 +147,14 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 				res.send("El usuario no existe");
 			} else {
                 console.log("else");
-                gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+                gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
                     console.log("usuarioCuentas");
                     if (cuentas == null) {
                         res.send("El usuario no es dueño de la cuenta " + iban);
                     }
                     else{
                         console.log("else");
-                         gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban ,function(cuentas){
+                         gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban, null, null, function(cuentas){
                             console.log("usuarioCuentas");
                             if (cuentas != null) {
                                 console.log(cuentas);
@@ -176,7 +190,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var iban = req.params.iban;
     
         console.log("usuarioCuentasIban");
-        gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+        gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
 			if (cuentas == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
@@ -208,7 +222,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var criterioCuenta = { "iban" : req.params.iban };
 
-		gestorBD.usuarioCuentasIban(criterioUsuario, iban, function(cuentas){
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
 			if (cuentas[0] == null) {
 				res.send("Error al listar las cuentas del usuario");
 			} else {
@@ -232,7 +246,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                 if (cuentas == null) {
                                     res.send("Error al modificar el saldo");
                                 } else {
-                                    gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+                                    gestorBD.usuarioCuentasIban(criterioUsuario, iban , null, null, function(cuentas){
                                         if (cuentas[0] == null) {
                                             res.send("La cuenta no pertenece al usuario");
                                         } else {

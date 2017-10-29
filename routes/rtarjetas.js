@@ -96,11 +96,16 @@ module.exports = function(app, swig, gestorBD){
     /////////////////////////////////// EDICION ///////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.put("/tarjeta/:numero", function(req, res) {
+    app.post("/tarjeta/:numero", function(req, res) {
+
+        console.log(req.body);
+        
         var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
-        var perdida = req.body.perdida;
-        var activa = req.body.activa;
+        var activa = req.body.estado;
+
+
+        /*
 
         var criterioUsuario = { "nombreUsuario" : usuario };
         var criterioTarjeta = { "numero" : numeroTarjeta  };	
@@ -127,13 +132,14 @@ module.exports = function(app, swig, gestorBD){
                 //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
             }
         });
+        */
     });
 
     ///////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////// BORRADO ///////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.delete("/tarjeta/:numero", function(req, res) {
+    app.get("/tarjetaEliminar/:numero", function(req, res) {
         console.log("delete tarjeta");
         var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
@@ -145,17 +151,20 @@ module.exports = function(app, swig, gestorBD){
             if ( tarjetas != null ){
                 gestorBD.eliminarTarjeta(criterioTarjeta, function(id) {
                     if (id == null){
-                        res.send("Error al eliminar la tarjeta");
-                        //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
+                        res.redirect("/tarjetas" +
+                        "?mensaje=Error al eliminar la tarjeta"+
+                        "&tipoMensaje=alert-danger ");
                         
                     } else {
                         gestorBD.eliminarTarjetaUsuario(criterioUsuario, numeroTarjeta, function(id) {
                             if (id == null){
-                                res.send("Error al eliminar la tarjeta");
-                                //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
-                                
+                                res.redirect("/tarjetas" +
+                                "?mensaje=Error al eliminar la tarjeta"+
+                                "&tipoMensaje=alert-danger ");                                
                             } else {
-                                res.redirect("/tarjetas");
+                                res.redirect("/tarjetas" +
+                                "?mensaje=Tarjeta eliminada"+
+                                "&tipoMensaje=alert-info ");
                             }
                         });
                     }
