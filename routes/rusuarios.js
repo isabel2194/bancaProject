@@ -40,7 +40,9 @@ module.exports = function(app, swig, gestorBD){
                             fechaNacimiento : req.body.fechaNacimiento,
                             email : req.body.email,
                             password : password,
-                            nombreUsuario : req.body.nombreUsuario
+                            nombreUsuario : req.body.nombreUsuario,
+                            cuentas : [],
+                            tarjetas : []
                         }
     
                         gestorBD.insertarUsuario(usuario, function(id) {
@@ -91,13 +93,11 @@ module.exports = function(app, swig, gestorBD){
 						"&tipoMensaje=alert-danger ");
 			} else {
                 if(usuarios[0].password == password){
-                    app.get('/', function (req, res) {
-                        var respuesta = swig.renderFile('views/home.html', 
-                        {
-                            usuario : true
-                        });
-                        res.send(respuesta);
-                    })
+                    var respuesta = swig.renderFile('views/home.html', 
+                    {
+                        usuario : true
+                    });
+                    res.send(respuesta);
                     console.log("usuario identificado");
                 }
                 else{
@@ -182,7 +182,7 @@ module.exports = function(app, swig, gestorBD){
     //////////////////////////////////////////////////////////////////////////////////////
 
     app.get("/cerrarSesion", function(req, res) {
-        var respuesta = swig.renderFile('view/home.html', {
+        var respuesta = swig.renderFile('views/index.html', {
             usuario : false
         });
 

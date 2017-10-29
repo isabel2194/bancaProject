@@ -1,4 +1,4 @@
-module.exports = function(app, swig, gestorBD, dateTime){
+module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     
     ///////////////////////////////////////////////////////////////////////////////
     //////////////////////////////// CREAR CUENTA /////////////////////////////////
@@ -11,7 +11,8 @@ module.exports = function(app, swig, gestorBD, dateTime){
     });
 
     app.post("/cuenta/crear", function(req, res) {
-        var nombreUsuario = req.body.nombreUsuario;
+        console.log("/cuenta/crear");
+        var nombreUsuario = req.session.nombreUsuario;
         var criterioUsuario = { "nombreUsuario" : nombreUsuario  };	
 
         //la cuenta con el iban ya existe?
@@ -21,11 +22,9 @@ module.exports = function(app, swig, gestorBD, dateTime){
                 ibanCuenta = ibanGenerator.doIban(ibanGenerator.randomNumber());
             }
             catch(Error){
-                //console.log("fallo al generar iban");
             }
         }
         while(ibanCuenta == null)
-        console.log("iban generado " + ibanCuenta);
 
         var criterioCuenta = { "iban" : ibanCuenta  };	
 
@@ -34,7 +33,6 @@ module.exports = function(app, swig, gestorBD, dateTime){
 
                 var cuenta = {
                     iban : ibanCuenta,
-                    //por defecto está a falso??, solo se pone con la estrella desde el menú??
                     principal : false,
                     saldo : req.body.saldo
                 }
@@ -44,17 +42,19 @@ module.exports = function(app, swig, gestorBD, dateTime){
                         res.redirect("/cuenta/crear?mensaje=Error al crear la cuenta");
                     } else {
                         //crear asociacion de cuenta con usuario que la crea
-                        gestorBD.usuarioPoseeCuenta(criterioUsuario, ibanCUenta ,function(usuarios){
+                        gestorBD.usuarioPoseeCuenta(criterioUsuario, ibanCuenta ,function(usuarios){
                             if ( usuarios == null ){
                                 res.send(respuesta);
                             } else {
-                                res.redirect("/cuentas?mensaje=Nueva cuenta creada");
+                                res.send("Nueva cuenta creada");
+                                //res.redirect("/cuentas?mensaje=Nueva cuenta creada");
                             }
                         });
                     }
                 });
             } else {
-                res.redirect("/cuenta/crear?mensaje=La cuenta con ese IBAN ya existe");
+                res.send("La cuenta con ese iban ya existe, vuelve a probar mas tarde");
+                //res.redirect("/cuenta/crear?mensaje=La cuenta con ese IBAN ya existe");
             }
         });
     });
@@ -64,18 +64,22 @@ module.exports = function(app, swig, gestorBD, dateTime){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get('/cuentas', function (req, res) {
-        var nombreUsuario = req.session.nombreUsuario;
+        var nombreUsuario = req.sesssion.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
+        console.log(nombreUsuario);
 
-        gestorBD.usuarioCuentas(criterio,function(cuentas){
-			if ( cuentas == null ){
-				res.send(respuesta);
+        gestorBD.usuarioCuentas(criterio, function(cuentas){
+			if ( cuentas[0] == null ){
+				res.send("Usuario sin cuentas");
 			} else {
-				var respuesta = swig.renderFile('view/cuentas.html', 
+                res.send(cuentas);
+                /*
+				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
 					cuentas : cuentas
 				});
-				res.send(respuesta);
+                res.send(respuesta);
+                */
 			}
 		});
     });
@@ -84,20 +88,23 @@ module.exports = function(app, swig, gestorBD, dateTime){
     ///////////////////////////// DETALLE CUENTAS /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     
+    
     app.get('/cuenta/:iban', function (req, res) {
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
 	
-		gestorBD.usuarioCuentas(criterioUsuario, iban ,function(cuentas){
-			if (cuentas == null) {
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+			if (cuentas[0] == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
+                /*
 				var respuesta = swig.renderFile('view/cuentaDetalle.html', 
 				{
                     //las cuentas tienen dentro un array de movimientos
 					cuentas : cuentas
-				});
-				res.send(respuesta);
+                });
+                */
+				res.send(cuentas);
 			}
 		});
     })
@@ -178,37 +185,50 @@ module.exports = function(app, swig, gestorBD, dateTime){
     app.put('/cuenta/transferencia/:iban', function (req, res) {
         var iban = req.params.iban;
 
-        var dt = datetime.create();
+        var dt = dateTime.create();
         var fecha = dt.format('d/m/Y H:M:S');
         var concepto = req.body.concepto;
         var cantidad = req.body.cantidad;
 
-        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
+        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
         var criterioCuenta = { "iban" : req.params.iban };
 
-		gestorBD.usuarioCuentas(criterioUsuario, iban ,function(cuentas){
-			if (cuentas == null) {
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban, function(cuentas){
+			if (cuentas[0] == null) {
 				res.send("Error al listar las cuentas del usuario");
 			} else {
-                if(cuentas[0].saldo >= cantidad){
+                var saldo = parseInt(cuentas[0].saldo);
+                var cantidadInt = parseInt(cantidad);
+
+                if(saldo >= cantidadInt){
                     var transferencia = {
                         fecha : fecha,
                         concepto : concepto,
-                        cantidad : cantidad
+                        cantidad : cantidadInt*(-1)
                     }
 
-                    gestorBD.realizarTransferencia(criterioCuenta, transferencia ,function(cuentas){
+                    saldo = saldo - cantidadInt;
+
+                    gestorBD.realizarTransferencia(criterioCuenta, transferencia, function(cuentas){
                         if (cuentas == null) {
                             res.send("Error al realizar la transferencia");
                         } else {
-                            var respuesta = swig.renderFile('view/cuentaDetalle.html', 
-                            {
-                                cuentas : cuentas
+                            gestorBD.modificarSaldo(criterioCuenta, saldo, function(cuentas){
+                                if (cuentas == null) {
+                                    res.send("Error al modificar el saldo");
+                                } else {
+                                    /*
+                                    var respuesta = swig.renderFile('view/cuentaDetalle.html', 
+                                    {
+                                        cuentas : cuentas
+                                    });
+                                    res.send(respuesta);
+                                    */
+                                    res.send("transferencia realizada con exito");
+                                }
                             });
-                            res.send(respuesta);
                         }
                     });
-
                 }else{
                     res.send("Saldo insuficiente");
                 }

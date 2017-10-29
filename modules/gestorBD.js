@@ -109,7 +109,6 @@ module.exports = {
             if (err) {
                 funcionCallback(null);
             } else {
-                
                 var collection = db.collection('usuarios');
                 collection.find(criterioUsuario).toArray(function(err, usuarios) {
                     if (err) {
@@ -117,29 +116,28 @@ module.exports = {
                     } else {
                         var ArrayIds = usuarios[0].cuentas;
                     
-                        if (ArrayIds == null){ // Puede no tener compras
+                        if (ArrayIds == null){ 
                             funcionCallback( {} );
                             db.close();
                             return;
                         }
-    
+                            
                         var collection = db.collection('cuentas');
                         collection.find({ "iban" : { $in: ArrayIds } })
                             .toArray(function(err, cuentas) {
-                                
-                            if (err) {
-                                funcionCallback(null);
-                            } else {
-                                funcionCallback(cuentas);
-                            }
-                            db.close();
+                                if (err) {
+                                    funcionCallback(null);
+                                } else {
+                                    funcionCallback(cuentas);
+                                }
+                                db.close();
                         });
                     }
                 });
             }
         });
     }
-    ,usuarioCuentas: function(criterioUsuario, iban, funcionCallback) {
+    ,usuarioCuentasIban: function(criterioUsuario, iban, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -157,7 +155,8 @@ module.exports = {
                             db.close();
                             return;
                         }
-                        if($.inArray(iban, ArrayIds)){
+                        
+                        if(ArrayIds.find(o => o === iban)){
                             var collection2 = db.collection('cuentas');
                             collection2.find({ "iban" : iban })
                                 .toArray(function(err, cuentas) {
@@ -165,12 +164,12 @@ module.exports = {
                                 if (err) {
                                     funcionCallback(null);
                                 } else {
-                                    //movimientos para esa cuenta
-                                    
                                     funcionCallback(cuentas);
                                 }
                                 db.close();
                             });
+                        }else{
+                            funcionCallback("cuenta no encontrada");
                         }
                     }
                 });
@@ -187,14 +186,13 @@ module.exports = {
                 collection.update(criterioUsuario, 
                         { $push: { "cuentas" : ibanCuenta } }  , 
                         function(err, result) {
-                            
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(result);
-                    }
-                    db.close();
-                });
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(result);
+                            }
+                            db.close();
+                        });
             }
         });
     },
@@ -459,6 +457,35 @@ module.exports = {
                         funcionCallback(result);
                     }
                     db.close();
+                });
+            }
+        });
+    },
+    modificarSaldo: function(criterioCuenta, saldo, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                
+                var collection = db.collection('cuentas');
+                collection.find(criterioCuenta).toArray(function(err, cuentas) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        var cuenta = cuentas[0];
+                        cuenta.saldo = saldo;
+
+                        collection.update(criterioCuenta, 
+                            {$set: cuenta}  , 
+                            function(err, result) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(result);
+                            }
+                            db.close();
+                        });
+                    }
                 });
             }
         });

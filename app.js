@@ -13,6 +13,7 @@ app.use(expressSession({
 }));
 
 var crypto = require('crypto');
+var jquery = require('jquery');
 
 var mongo = require('mongodb');
 var gestorBD = require("./modules/gestorBD.js");
