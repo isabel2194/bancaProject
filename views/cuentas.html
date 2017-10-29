@@ -4,9 +4,9 @@
 <table class="table table-hover">
     {% for cuenta in cuentas %}
     <tr>
-        <td>{%cuenta.iban%}</td>
-        <td>{%cuenta.usuarios%}</td>
-        <td>{%cuenta.principal%}</td>
+        <td>{% cuenta.iban %}</td>
+        <td>{% cuenta.usuarios %}</td>
+        <td>{% cuenta.principal %}</td>
     </tr>
     {%endfor%}
 </table>
