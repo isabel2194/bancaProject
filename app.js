@@ -3,6 +3,8 @@ var express = require('express');
 
 var app = express();
 
+var ibanGenerator = require("iban-generator");
+
 var expressSession = require('express-session');
 app.use(expressSession({
     secret: 's3s10ns3cr3t4',
@@ -59,7 +61,7 @@ app.set('crypto',crypto);
 
 var dateTime = require('node-datetime');
 
-require("./routes/rcuentas.js")(app, swig, gestorBD, dateTime);
+require("./routes/rcuentas.js")(app, swig, gestorBD, dateTime, ibanGenerator);
 require("./routes/rusuarios.js")(app, swig, gestorBD);
 require("./routes/rtarjetas.js")(app, swig, gestorBD);
 

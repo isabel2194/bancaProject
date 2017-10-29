@@ -12,14 +12,26 @@ module.exports = function(app, swig, gestorBD, dateTime){
 
     app.post("/cuenta/crear", function(req, res) {
         var nombreUsuario = req.body.nombreUsuario;
-        var ibanCUenta = req.body.iban
-
-        var criterioCuenta = { "iban" : req.body.iban  };	
         var criterioUsuario = { "nombreUsuario" : nombreUsuario  };	
 
         //la cuenta con el iban ya existe?
+        var ibanCuenta = null;
+        do{
+            try{
+                ibanCuenta = ibanGenerator.doIban(ibanGenerator.randomNumber());
+            }
+            catch(Error){
+                //console.log("fallo al generar iban");
+            }
+        }
+        while(ibanCuenta == null)
+        console.log("iban generado " + ibanCuenta);
+
+        var criterioCuenta = { "iban" : ibanCuenta  };	
+
         gestorBD.obtenerCuentas(criterioCuenta ,function(cuentas){
             if ( cuentas[0] == null ){
+
                 var cuenta = {
                     iban : ibanCuenta,
                     //por defecto está a falso??, solo se pone con la estrella desde el menú??

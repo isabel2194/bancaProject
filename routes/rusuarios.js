@@ -4,8 +4,6 @@ module.exports = function(app, swig, gestorBD){
     ////////////////////////////////////////////////////////////////////////////////
 
     app.get("/registrarse", function(req, res) {
-		//var respuesta = swig.renderFile('views/registro.html', {});
-		//res.send("me voy a registrar");
 	});
 
     app.post("/registrarse", function(req, res) {
@@ -93,7 +91,14 @@ module.exports = function(app, swig, gestorBD){
 						"&tipoMensaje=alert-danger ");
 			} else {
                 if(usuarios[0].password == password){
-                    res.send("usuario identificado");
+                    app.get('/', function (req, res) {
+                        var respuesta = swig.renderFile('views/home.html', 
+                        {
+                            usuario : true
+                        });
+                        res.send(respuesta);
+                    })
+                    console.log("usuario identificado");
                 }
                 else{
                     res.send("Nombre o contraseña incorrectos")
