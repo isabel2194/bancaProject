@@ -71,8 +71,16 @@ module.exports = function(app, swig, gestorBD){
 
         gestorBD.usuarioTarjetas(criterio, function(tarjetas){
 			if ( tarjetas[0] == null){
-				res.send(respuesta);
+                console.log("no tengo tarjetas");
+				var respuesta = swig.renderFile('views/tarjetas.html', 
+				{
+                    tarjetas : [],
+                    usuario:true
+				});
+                res.send(respuesta);
+
 			} else {
+                console.log("tengo tarjetas");
                 //res.send(tarjetas);
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{
