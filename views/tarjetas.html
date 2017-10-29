@@ -7,7 +7,7 @@
         <td>Nº de tarjeta: {{ tarjeta.numero }}</td>
             <td><input id="toggle-event" name="estado" data-toggle="toggle" data-on="Habilitada" data-off="Deshabilitada" data-onstyle="success" data-offstyle="danger" type="checkbox"></td>
         <form action='/tarjetaEliminar/{{ tarjeta.numero }}' method="get">
-            <td><button type="submit">Pérdida/robo</button></form></td>
+            <td><button type="submit" class="btn">Pérdida/robo</button></form></td>
         </form>       
     </tr>
     {%endfor%}
