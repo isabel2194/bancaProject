@@ -156,26 +156,30 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     //////////////////////////// CUENTA PRINCIPAL /////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.get('/cuenta/principal/:iban', function (req, res) {
-        console.log("/cuenta/principal/ + req.params.iban");
-        var criterioUsuario = { "nombreUsuario" : req.body.nombreUsuario };
+    app.post('/cuenta/principal/:iban', function (req, res) {
+        console.log("/cuenta/principal/" + req.params.iban);
+        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
     
+        console.log("usuarioCuentasIban");
         gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
 			if (cuentas == null) {
 				res.send("La cuenta no pertenece al usuario");
 			} else {
+                console.log("usuarioCambiarPrincipal");
                 gestorBD.usuarioCambiarPrincipal(criterioUsuario, iban, function(cuentas){
                     if (cuentas != true) {
                         res.send("Ha ocurrido un error procesando su operacion");
                     } else {
-                        gestorBD.usuarioCuentas(criterioUsuario, function(cuentas){
-                            if ( cuentas[0] == null ){
-                                res.send("Usuario sin cuentas");
+                        console.log("usuarioCuentas");
+                        gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+                            if (cuentas[0] == null) {
+                                res.send("La cuenta no pertenece al usuario");
                             } else {
-                                var respuesta = swig.renderFile('views/cuentas.html', 
+                                var respuesta = swig.renderFile('views/cuentaDetalle.html', 
                                 {
-                                    cuentas : cuentas
+                                    cuenta : cuentas[0],
+                                    usuario:true
                                 });
                                 res.send(respuesta);
                             }
