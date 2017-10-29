@@ -5,7 +5,12 @@
     <p>IBAN: <span id="info_cuenta_iban">{{ cuenta.iban }}</span></p>
     <p>Usuarios: <span id="info_cuenta_usuarios">{{ cuenta.usuarios }}</span></p>
     <p>Saldo actual: <span id="info_cuenta_saldo">{{ cuenta.saldo }}</span></p>
-    <button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" method="get" action='/cuenta/principal:{{ cuenta.iban }}'></button><span> Marcar como predeterminada</span>
+    {% if cuenta.principal %}
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit"></button></form><span> Marcar como predeterminada</span>
+    {% endif%}
+    {% if cuenta.principal==false %}
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"></button></form><span> Marcar como predeterminada</span>
+   	{% endif%}
     <div id="info_cuenta_options">
         <button id="share_account" class="btn btn-default" method="get" action='/cuenta/compartir:{{ cuenta.iban }}'> COMPARTIR CUENTA</button>
         <button id="transferencia_button" class="btn btn-default" onclick="hacerTranferencia()">TRANSFERENCIA</button>
@@ -13,7 +18,7 @@
 </div>
 <table class="table table-hover">
     <tr>
-        <th >Fecha</th>
+        <th>Fecha</th>
         <th>Concepto</th>
         <th>Cantidad</th>
     </tr>
@@ -41,7 +46,7 @@
           <input id="cantidad" type="number" name="cantidad" placeholder="Cantidad"/>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" method="put" action='/cuenta/transferencia/{{cuenta.iban}}'>Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" method="put" action='/cuenta/transferencia/{{ cuenta.iban }}'>Close</button>
         </div>
       </div>
     </div>

@@ -17,9 +17,9 @@ function hacerTrasferencia(){
     
 }
 
-function compartirCuenta(){
-    
+function compartirCuenta(iban, principalActual){
+	if(prin){
+		$.post("/cuenta/principal/"+iban);
+	}
 }
-
-
 

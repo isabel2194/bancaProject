@@ -56,7 +56,14 @@
 
 .glyphicon-star-empty:before , .glyphicon-star:before {
     color: black;
+    font-size: x-large;
 }
+
+.estrella:before{
+	color:gold;
+	font-size: x-large;
+}
+
 #info_cuenta_options{
     text-align: center;
 }

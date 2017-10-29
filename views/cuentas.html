@@ -7,7 +7,12 @@
     	
         <td>{{ cuenta.iban }}</td>
         <td>{{ cuenta.usuarios }}</td>
-        <td>{{ cuenta.principal }}</td>
+        {% if cuenta.principal %}
+        <td><span class="glyphicon glyphicon-star estrella"></span></td>
+        {% endif %}
+        {% if cuenta.principal==false %}
+        <td><span class="glyphicon glyphicon-star-empty estrella"></span></td>
+        {% endif %}
         <td><form  method="get" action='/cuenta/{{cuenta.iban}}'><button type="submit" class="btn">Detalle</button></form></td>
     </tr>
     {%endfor%}
