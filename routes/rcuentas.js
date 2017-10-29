@@ -110,6 +110,9 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         }
         if( req.query.fechaMovimiento != null ){
             fechaMovimiento = req.query.fechaMovimiento;
+
+            var dat2 = dateTime.create(fechaMovimiento);
+            fechaMovimiento = dat2.format('d/m/Y');
         }	
         
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, function(cuentas){
