@@ -69,28 +69,4 @@
       </div>
     </div>
   </div>
-
-  <div class="modal fade" id="myModalCompartir" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Transferencia</h4>
-        </div>
-        <div class="modal-body">
-        <form method="post" action='/cuenta/transferencia/{{cuenta.iban}}'>
-          <label for="concepto">Concepto</label>
-          <input id="concepto" type="text" name="concepto" placeholder="Concepto"/>
-          <label for="cantidad">Cantidad</label>
-          <input id="cantidad" type="number" name="cantidad" placeholder="Cantidad"/>
-          <button class="btn" type="submit">REALIZAR TRANSFERENCIA</button>
-        </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock %}

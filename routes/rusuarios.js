@@ -54,7 +54,8 @@ module.exports = function(app, swig, gestorBD){
                                 "&tipoMensaje=alert-danger ");
                                 
                             } else {
-                                res.send("Nuevo usuario registrado");
+                                res.redirect("/identificarse?mensaje=Nuevo usuario registrado"+
+                                "&tipoMensaje=alert-info ");
                             }
                         });
                     } else {

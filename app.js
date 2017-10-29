@@ -51,8 +51,7 @@ app.use("/tarjeta*", routerUsuarioSession);
 
 app.use(express.static('public'));
 
-
-app.set('port', 8081);
+app.set('port', process.env.PORT || 8081);
 app.set('db','mongodb://admin:b4nc4pr0j3ct!@ds237445.mlab.com:37445/bancaproject');
 app.set('clave','abcdefg');
 app.set('crypto',crypto);
