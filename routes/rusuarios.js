@@ -49,22 +49,25 @@ module.exports = function(app, swig, gestorBD){
     
                         gestorBD.insertarUsuario(usuario, function(id) {
                             if (id == null){
-                                res.send("error al registrar usuario")
-                                //res.redirect("/registrarse?mensaje=Error al registrar usuario");
+                                res.redirect("/registrarse" +
+                                "?mensaje=Error al registrar el usuario"+
+                                "&tipoMensaje=alert-danger ");
                                 
                             } else {
                                 res.send("Nuevo usuario registrado");
-                                //res.redirect("/identificarse?mensaje=Nuevo usuario registrado");
                             }
                         });
                     } else {
-                        res.send("Un usuario con ese identificador ya existe");
+                        res.redirect("/registrarse" +
+                        "?mensaje=Usuario con ese identificador ya existe"+
+                        "&tipoMensaje=alert-danger ");
                     }
                 });
             }            
         }else{
-            res.send("Las contraseñas no coinciden");
-            //res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
+            res.redirect("/registrarse" +
+            "?mensaje=Las contraseñas no coinciden"+
+            "&tipoMensaje=alert-danger ");
         }
     });
 

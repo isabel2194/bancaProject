@@ -226,12 +226,18 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                 if (cuentas == null) {
                                     res.send("Error al modificar el saldo");
                                 } else {
-                                    var respuesta = swig.renderFile('views/cuentaDetalle.html', 
-                                    {
-                                        cuentas : cuentas
+                                    gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
+                                        if (cuentas[0] == null) {
+                                            res.send("La cuenta no pertenece al usuario");
+                                        } else {
+                                            var respuesta = swig.renderFile('views/cuentaDetalle.html', 
+                                            {
+                                                cuenta : cuentas[0],
+                                                usuario:true
+                                            });
+                                            res.send(respuesta);
+                                        }
                                     });
-                                    res.send(respuesta);
-                                    //res.send("transferencia realizada con exito");
                                 }
                             });
                         }

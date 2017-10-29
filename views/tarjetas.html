@@ -4,10 +4,10 @@
 <table class="table table-hover">
     {% for tarjeta in tarjetas %}
     <tr>
-        <td>Nº de tarjeta: {{ tarjeta.numero }}</td>
+        <td>NÂº de tarjeta: {{ tarjeta.numero }}</td>
         <td><input id="activaTarjeta" type="checkbox" data-toggle="toggle" data-on="Activa" data-off="Desactiva"></td>
         <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Dar de baja</button></form></td>
-        <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">Pérdida/robo</button></form></td>
+        <td><form method="delete" action='/tarjeta/{{ tarjeta.numero }}'><button type="submit">PÃ©rdida/robo</button></form></td>
     </tr>
     {%endfor%}
 </table>
