@@ -65,15 +65,14 @@ module.exports = function(app, swig, gestorBD){
     ////////////////////////////// TARJETAS USUARIO ///////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.get('/tarjetas/:nombreUsuario', function (req, res) {
-        var nombreUsuario = req.params.nombreUsuario;
+    app.get('/tarjetas', function (req, res) {
+        var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
 
         gestorBD.usuarioTarjetas(criterio, function(tarjetas){
 			if ( tarjetas[0] == null){
 				res.send(respuesta);
 			} else {
-                console.log(tarjetas);
                 //res.send(tarjetas);
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{

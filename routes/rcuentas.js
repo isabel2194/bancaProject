@@ -96,8 +96,8 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 			} else {
 				var respuesta = swig.renderFile('views/cuentaDetalle.html', 
 				{
-                    //las cuentas tienen dentro un array de movimientos
-					cuenta : cuentas[0]
+                    cuenta : cuentas[0],
+                    usuario:true
                 });
 				res.send(respuesta);
 			}
