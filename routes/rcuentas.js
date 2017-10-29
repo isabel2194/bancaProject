@@ -68,7 +68,12 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
     app.get('/cuentas', function (req, res) {
         var nombreUsuario = req.session.nombreUsuario;
-        var criterio = { "nombreUsuario" : nombreUsuario };
+        if( req.query.busqueda != null ){
+        	var criterio = { "nombreUsuario" : nombreUsuario,
+        		"iban" : {$regex : ".*"+req.query.busqueda+".*"} };
+        }else{
+        	var criterio = { "nombreUsuario" : nombreUsuario}
+        }
 
         gestorBD.usuarioCuentas(criterio, function(cuentas){
 			if ( cuentas[0] == null ){
@@ -97,6 +102,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
 	
+        
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban ,function(cuentas){
 			if (cuentas[0] == null) {
 				res.send("La cuenta no pertenece al usuario");
