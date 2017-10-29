@@ -191,7 +191,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ////////////////////////////// TRANSFERENCIA //////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    app.put('/cuenta/transferencia/:iban', function (req, res) {
+    app.post('/cuenta/transferencia/:iban', function (req, res) {
         var iban = req.params.iban;
 
         var dt = dateTime.create();
@@ -226,7 +226,7 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                 if (cuentas == null) {
                                     res.send("Error al modificar el saldo");
                                 } else {
-                                    var respuesta = swig.renderFile('view/cuentaDetalle.html', 
+                                    var respuesta = swig.renderFile('views/cuentaDetalle.html', 
                                     {
                                         cuentas : cuentas
                                     });

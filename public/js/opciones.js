@@ -18,18 +18,6 @@ function hacerTransferencia() {
 	$("#myModal").addClass("show");
 }
 
-function realizarTransferencia(url){
-	let concepto_form=$("#concepto").val();
-	let cantidad_form=$("#cantidad").val();
-	let datos={
-		concepto:concepto_form,
-		cantidad:cantidad_form
-	};
-	$.ajax({
-	    url: url,
-	    type: 'PUT',
-	    data: datos});
-}
 
 function compartirCuenta(iban, principalActual) {
 	if (prin) {
