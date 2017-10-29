@@ -73,11 +73,13 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 				res.send("Usuario sin cuentas");
 			} else {
                 //res.send(cuentas);
+                
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
 					cuentas : cuentas
 				});
                 res.send(respuesta);
+                
 			}
 		});
     });
