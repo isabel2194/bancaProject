@@ -17,7 +17,6 @@ module.exports = function(app, swig, gestorBD){
         var criterioCuenta = { "iban" : iban  };	
 
         //la cuenta con el iban ya existe?
-        console.log();
         gestorBD.obtenerCuentas(criterioCuenta ,function(cuentas){
             if ( cuentas != null ){
                 gestorBD.obtenerTarjetas(criterioTarjeta,function(tarjetas){
@@ -71,7 +70,6 @@ module.exports = function(app, swig, gestorBD){
 
         gestorBD.usuarioTarjetas(criterio, function(tarjetas){
 			if ( tarjetas[0] == null){
-                console.log("no tengo tarjetas");
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{
                     tarjetas : [],
@@ -80,7 +78,6 @@ module.exports = function(app, swig, gestorBD){
                 res.send(respuesta);
 
 			} else {
-                console.log("tengo tarjetas");
                 //res.send(tarjetas);
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{
@@ -98,14 +95,10 @@ module.exports = function(app, swig, gestorBD){
 
     app.post("/tarjeta/:numero", function(req, res) {
 
-        console.log(req.body);
         
         var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
         var activa = req.body.estado;
-
-
-        /*
 
         var criterioUsuario = { "nombreUsuario" : usuario };
         var criterioTarjeta = { "numero" : numeroTarjeta  };	
@@ -132,7 +125,6 @@ module.exports = function(app, swig, gestorBD){
                 //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
             }
         });
-        */
     });
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -140,7 +132,6 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get("/tarjetaEliminar/:numero", function(req, res) {
-        console.log("delete tarjeta");
         var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
 

@@ -13,7 +13,6 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     })
 
     app.post("/cuenta/crear", function(req, res) {
-        console.log("/cuenta/crear");
         var nombreUsuario = req.session.nombreUsuario;
         var criterioUsuario = { "nombreUsuario" : nombreUsuario  };	
 
@@ -112,10 +111,6 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         if( req.query.fechaMovimiento != null ){
             fechaMovimiento = req.query.fechaMovimiento;
         }	
-
-        console.log(iban);
-        console.log(movimientoBusqueda);
-        console.log(fechaMovimiento);
         
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, function(cuentas){
 			if (cuentas[0] == null) {
@@ -142,29 +137,29 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var iban = req.params.iban;
 	
 		gestorBD.obtenerUsuarios(criterioUsuarioCompartir, function(usuarios){
-            console.log("obtenerUsuarios");
 			if (usuarios[0] == null) {
-				res.send("El usuario no existe");
+                res.redirect("/cuenta/" + iban +
+                "?mensaje=El usuario no existe"+
+                "&tipoMensaje=alert-danger");
 			} else {
-                console.log("else");
                 gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
-                    console.log("usuarioCuentas");
                     if (cuentas == null) {
-                        res.send("El usuario no es dueño de la cuenta " + iban);
+                        res.redirect("/cuenta/" + iban +
+                        "?mensaje=El usuario no es dueño de la cuenta"+
+                        "&tipoMensaje=alert-danger");
                     }
                     else{
-                        console.log("else");
                          gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban, null, null, function(cuentas){
-                            console.log("usuarioCuentas");
                             if (cuentas != null) {
-                                console.log(cuentas);
-                                res.send("El usuario ya tiene compartida esta cuenta");
+                                res.redirect("/cuenta/" + iban +
+                                "?mensaje=El usuario ya tiene compartida esta cuenta"+
+                                "&tipoMensaje=alert-info");
                             } else {
-                                console.log("else");
                                 gestorBD.usuarioPoseeCuenta(criterioUsuarioCompartir, iban ,function(usuarios){
-                                    console.log("usuarioPoseeCuenta");
-                                    if ( usuarios[0] == null ){
-                                        res.send("Error al compartir la cuenta, vuelva a intentarlo más tarde");
+                                    if ( usuarios == null ){
+                                        res.redirect("/cuenta/" + iban +
+                                        "?mensaje=Error al compartir la cuenta"+
+                                        "&tipoMensaje=alert-danger");
                                     } else {
                                         res.redirect("/cuentas" +
                                         "?mensaje=Cuenta compartida correctamente"+
@@ -185,19 +180,16 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.post('/cuenta/principal/:iban', function (req, res) {
-        console.log("/cuenta/principal/" + req.params.iban);
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
     
-        console.log("usuarioCuentasIban");
         gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
 			if (cuentas == null) {
-				res.send("La cuenta no pertenece al usuario");
+				res.redirect("/cuenta/" + iban + "?mensaje=La cuenta no pertenede al usuario&tipoMensaje=alert-danger");
 			} else {
-                console.log("usuarioCambiarPrincipal");
                 gestorBD.usuarioCambiarPrincipal(criterioUsuario, iban, function(cuentas){
                     if (cuentas != true) {
-                        res.send("Ha ocurrido un error procesando su operacion");
+                        res.redirect("/cuenta/" + iban + "?mensaje=Ha ocurrido un error procesando su operación&tipoMensaje=alert-danger");
                     } else {
                         res.redirect("/cuenta/" + iban + "?mensaje=Cuenta editada correctamente&tipoMensaje=alert-info");
                     }

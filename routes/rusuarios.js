@@ -93,7 +93,6 @@ module.exports = function(app, swig, gestorBD){
 		gestorBD.obtenerUsuarios(criterio, function(usuarios) {
 			if (usuarios[0] == null) {
                 req.session.nombreUsuario = null;
-                //res.send("Nombre o contraseña incorrectos")
 				res.redirect("/identificarse" +
 						"?mensaje=Nombre de usuario o password incorrecto"+
 						"&tipoMensaje=alert-danger ");
@@ -105,10 +104,11 @@ module.exports = function(app, swig, gestorBD){
                     });
                     req.session.nombreUsuario = criterio.nombreUsuario;
                     res.send(respuesta);
-                    console.log("usuario identificado");
                 }
                 else{
-                    res.send("Nombre o contraseña incorrectos")
+                    res.redirect("/identificarse" +
+                    "?mensaje=Nombre de usuario o password incorrecto"+
+                    "&tipoMensaje=alert-danger ");
                 }
 			}
 		});
