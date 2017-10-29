@@ -66,17 +66,15 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     app.get('/cuentas', function (req, res) {
         var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
-        console.log(nombreUsuario);
 
         gestorBD.usuarioCuentas(criterio, function(cuentas){
 			if ( cuentas[0] == null ){
 				res.send("Usuario sin cuentas");
-			} else {
-                //res.send(cuentas);
-                
+			} else {                
 				var respuesta = swig.renderFile('views/cuentas.html', 
 				{
-					cuentas : cuentas
+					cuentas : cuentas,
+					usuario:true
 				});
                 res.send(respuesta);
                 

@@ -19,9 +19,9 @@
     </tr>
     {% for movimiento in cuenta.movimientos %}
     <tr>
-        <td>{%movimiento.fecha%}</td>
-        <td>{%movimiento.concepto%}</td>
-        <td>{%movimiento.cantidad%}</td>
+        <td>{{ movimiento.fecha }}</td>
+        <td>{{ movimiento.concepto }}</td>
+        <td>{{ movimiento.cantidad }}</td>
     </tr>
     {%endfor%}
 </table>
