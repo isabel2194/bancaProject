@@ -7,11 +7,11 @@ module.exports = function(app, swig, gestorBD){
     app.post("/tarjetas/crear/:iban", function(req, res) {
         var iban = req.params.iban;
 
-        var numero = req.body.password;
+        var numero = req.body.numero;
         var perdida = false;
         var activa = false;
 
-        var criterioUsuario = { "nombreUsuario" : req.session.usuario };
+        var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var criterioTarjeta = { "numero" : numero };	
         var criterioCuenta = { "iban" : iban  };	
 
@@ -82,7 +82,7 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.put("/tarjeta/:numero", function(req, res) {
-        var usuario = req.session.usuario;
+        var usuario = req.session.nombreUsuario;
         var numeroTarjeta = req.params.numero;
 
         var criterioUsuario = { "nombreUsuario" : usuario };

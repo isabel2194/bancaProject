@@ -86,7 +86,7 @@ module.exports = function(app, swig, gestorBD){
 
 		gestorBD.obtenerUsuarios(criterio, function(usuarios) {
 			if (usuarios[0] == null) {
-                req.session.usuario = null;
+                req.session.nombreUsuario = null;
                 res.send("Nombre o contraseña incorrectos")
 				res.redirect("/identificarse" +
 						"?mensaje=Nombre de usuario o password incorrecto"+
@@ -187,7 +187,7 @@ module.exports = function(app, swig, gestorBD){
             usuario : false
         });
 
-        req.session.usuario = null;
+        req.session.nombreUsuario = null;
         req.session.destroy();
 
 		res.send(respuesta);
