@@ -163,6 +163,16 @@ body > div{
 	margin:0 auto;
 }
 
+#form_registro button{
+	height: 50px;
+    width: 150px;
+    font-size: 25px;
+    font-weight: bold;
+    color: steelblue;
+    margin-right: 15px;
+    background-color: #ddd;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
