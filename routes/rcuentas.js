@@ -5,11 +5,27 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get("/home", function(req, res){
-        var respuesta = swig.renderFile('views/home.html', 
-        {
-            usuario:true
-        });
-        res.send(respuesta);
+        var nombreUsuario = req.session.nombreUsuario;
+        var criterio = { "nombreUsuario" : nombreUsuario} ;
+
+        gestorBD.usuarioCuentas(criterio, null, function(cuentas){
+            console.log(cuentas);
+			if ( cuentas[0] == null ){
+				var respuesta = swig.renderFile('views/home.html', 
+                {
+                    cuentas : [],
+                    usuario:true
+                });
+                res.send(respuesta);
+			} else {                
+				var respuesta = swig.renderFile('views/home.html', 
+                {
+                    cuentas : cuentas,
+                    usuario:true
+                });
+                res.send(respuesta);
+			}
+		});
     })
 
     app.post("/cuenta/crear", function(req, res) {

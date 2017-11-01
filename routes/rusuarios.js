@@ -98,12 +98,8 @@ module.exports = function(app, swig, gestorBD){
 						"&tipoMensaje=alert-danger ");
 			} else {
                 if(usuarios[0].password == password){
-                    var respuesta = swig.renderFile('views/home.html', 
-                    {
-                        usuario : true
-                    });
                     req.session.nombreUsuario = criterio.nombreUsuario;
-                    res.send(respuesta);
+                    res.redirect("/home");
                 }
                 else{
                     res.redirect("/identificarse" +

@@ -9,6 +9,9 @@ module.exports = function(app, swig, gestorBD){
 
         var numero = req.body.numero;
         var iban = req.body.iban;
+
+        console.log(iban);
+        
         var perdida = false;
         var activa = false;
 

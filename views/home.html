@@ -19,8 +19,12 @@
 		<div class="form-group">
 			<label>N&#250;mero</label> <input type="text" class="form-control"
 				placeholder="N&#250;mero de tarjeta" name="numero"/> 
-			<label>IBAN</label> <input type="text" class="form-control"
-				placeholder="N&#250;mero de cuenta asociada" name="iban" />
+			<label>IBAN</label> 
+			<select name="iban">
+			{% for cuenta in cuentas %}
+			<option>{{ cuenta.iban }}</option>
+			{%endfor%}
+			</select>
 			<button class="btn btn-default btn-lg" type="submit">A&#241;adir</button>
 		</div>
 	</form>
