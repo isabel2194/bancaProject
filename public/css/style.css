@@ -167,14 +167,38 @@ body > div{
 	height: 50px;
     width: 150px;
     font-size: 25px;
-    font-weight: bold;
-    color: steelblue;
     margin-right: 15px;
-    background-color: #ddd;
 }
 
 .btn-derecha{
     float : right;
+}
+
+.modal-contenido{
+	float: initial;
+    margin: 30px auto;
+}
+
+.modal-body{
+	text-align: center;
+}
+
+.button-click{
+	background-color: #af8f59;/*#79b2e4;*/
+    font-weight: bold;
+    font-size: 16px;
+    color:white;
+}
+.button-no-click{
+	font-size: 20px;
+    height: 100%;
+    width: 70px;
+}
+
+
+.button-click:hover{
+	background-color:#c7ab7c;/*#bfdffb;*/
+	color:#2b2b2b;
 }
 
 @media(max-width:768px){
