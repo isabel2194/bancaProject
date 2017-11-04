@@ -5,10 +5,10 @@
     <p>IBAN: <span id="info_cuenta_iban">{{ cuenta.iban }}</span></p>
     <p>Saldo actual: <span id="info_cuenta_saldo">{{ cuenta.saldo }}</span></p>
     {% if cuenta.principal %}
-    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit" disabled></button><span> Cuenta predeterminada</span></form>
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star btn btn-lg" type="submit" disabled><span> Cuenta predeterminada</span></button></form>
     {% endif%}
     {% if cuenta.principal==false %}
-    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"></button><span> Marcar como predeterminada</span></form>
+    	<form method="post" action='/cuenta/principal/{{cuenta.iban}}'><button id="favorite_account" class="glyphicon glyphicon-star-empty btn btn-lg" type="submit"><span> Marcar como predeterminada</span></button></form>
    	{% endif%}
     <div id="info_cuenta_options">
         <button id="share_account" class="btn btn-default" onclick="mostrarCompartirCuenta()"> COMPARTIR CUENTA</button>
@@ -40,7 +40,7 @@
     <tr>
         <td>{{ movimiento.fecha }}</td>
         <td>{{ movimiento.concepto }}</td>
-        <td>{{ movimiento.cantidad }} €.</td>
+        <td>{{ movimiento.cantidad }} ï¿½.</td>
     </tr>
     {%endfor%}
 </table>

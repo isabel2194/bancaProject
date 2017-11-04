@@ -25,12 +25,53 @@
 	<nav id="menu" class=" col-xs-12 navbar">
 		<div class="container-fluid">
 			{% if usuario==true %}
-			<ul class="nav navbar-nav">
-				<li id="mHome" class="active"><a href="/home">Inicio</a></li>
-				<li id="mCuentas" class="active"><a href="/cuentas">Cuentas</a></li>
-				<li id="mTarjetas"><a href="/tarjetas">Tarjetas</a></li>
+			<ul class="nav navbar-nav navbar-left">
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Banca privada <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					  <li><a href="/cuentas">Cuentas</a></li>
+					  <li id="mCuentas"><a href="/tarjetas">Tarjetas</a></li>
+					  <li id="mTarjetas"><a href="#">Domiciliaciones</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sobre nosotros <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Empresas</a></li>
+					<li><a href="#">Buscador de oficinas</a></li>
+					<li><a href="#">Consejo directivo</a></li>
+				</ul>
+				</li>
 			</ul>
 			{% endif%}
+			{% if usuario == false %}
+			<ul class="nav navbar-nav navbar-left">
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Hipotecas y Préstamos <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Financiación</a></li>
+						<li><a href="#">Hipotecas</a></li>
+						<li><a href="#">Prestamos</a></li>
+						<li><a href="#">Renting</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Inversión y Ahorro <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/formularioInversores">Formulario para inversores</a></li>
+						<li><a href="#">Acciones</a></li>
+						<li><a href="#">Ahorro</a></li>
+						<li><a href="#">Inversión</a></li>
+						<li><a href="#">Pensiones</a></li>
+						<li><a href="#">Seguros</a></li>
+					</ul>
+				</li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sobre nosotros <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Empresas</a></li>
+						<li><a href="#">Buscador de oficinas</a></li>
+						<li><a href="#">Consejo directivo</a></li>
+					</ul>
+				</li>
+			</ul>
+			  {% endif%}
+
 			<ul class="nav navbar-nav navbar-right">
 				{% if usuario==false %}
 				<li><a href="/registrarse"><span

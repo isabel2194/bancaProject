@@ -1,6 +1,17 @@
 {% extends "base.html" %} 
 {% block titulo %} Bank - Cuentas {% endblock %} 
 {%block contenido_principal %}
+<div id="div_crear_cuenta" class="col-xs-12">
+	<button class="btn btn-default btn-lg"
+		onclick="$('#form_crear_cuenta').show()">Crear cuenta</button>
+	<form id="form_crear_cuenta" method="post" action="/cuenta/crear">
+		<div class="form-group">
+			<label>Saldo</label> <input name="saldo" type="number" class="form-control"
+				placeholder="Saldo" min="0" required/>
+			<button class="btn btn-default btn-lg" type="submit">Crear</button>
+		</div>
+	</form>
+</div>
 <div id="busqueda_cuentas" class="col-xs-12">
 <form method="get" action="/cuentas" >
 		<div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">

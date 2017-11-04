@@ -9,7 +9,6 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var criterio = { "nombreUsuario" : nombreUsuario} ;
 
         gestorBD.usuarioCuentas(criterio, null, function(cuentas){
-            console.log(cuentas);
 			if ( cuentas[0] == null ){
 				var respuesta = swig.renderFile('views/home.html', 
                 {
@@ -133,7 +132,9 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, function(cuentas){
 			if (cuentas[0] == null) {
-				res.send("La cuenta no pertenece al usuario");
+                res.redirect("/home" +
+                "?mensaje=La cuenta solicitada no pertenece al usuario"+
+                "&tipoMensaje=alert-danger ");
 			} else {
 				var respuesta = swig.renderFile('views/cuentaDetalle.html', 
 				{
@@ -235,7 +236,9 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 
 		gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
 			if (cuentas[0] == null) {
-				res.send("Error al listar las cuentas del usuario");
+                res.redirect("/home" +
+                "?mensaje=Error al mostrar la cuenta del usuario"+
+                "&tipoMensaje=alert-danger ");
 			} else {
                 var saldo = parseInt(cuentas[0].saldo);
                 var cantidadInt = parseInt(cantidad);
@@ -251,15 +254,21 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
 
                     gestorBD.realizarTransferencia(criterioCuenta, movimiento, function(cuentas){
                         if (cuentas == null) {
-                            res.send("Error al realizar la transferencia");
+                            res.redirect("/cuenta/" + iban +
+                            "?mensaje=Error al realizar la transferencia"+
+                            "&tipoMensaje=alert-danger ");
                         } else {
                             gestorBD.modificarSaldo(criterioCuenta, saldo, function(cuentas){
                                 if (cuentas == null) {
-                                    res.send("Error al modificar el saldo");
+                                    res.redirect("/cuenta/" + iban +
+                                    "?mensaje=Error al modificar el saldo"+
+                                    "&tipoMensaje=alert-danger ");
                                 } else {
                                     gestorBD.usuarioCuentasIban(criterioUsuario, iban , null, null, function(cuentas){
                                         if (cuentas[0] == null) {
-                                            res.send("La cuenta no pertenece al usuario");
+                                            res.redirect("/cuenta/" + iban +
+                                            "?mensaje=La cuenta no pertenece al usuario"+
+                                            "&tipoMensaje=alert-danger ");
                                         } else {
                                             var respuesta = swig.renderFile('views/cuentaDetalle.html', 
                                             {
@@ -274,7 +283,9 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                         }
                     });
                 }else{
-                    res.send("Saldo insuficiente");
+                    res.redirect("/cuenta/" + iban +
+                    "?mensaje=Saldo insuficiente"+
+                    "&tipoMensaje=alert-danger ");
                 }
 			}
 		});

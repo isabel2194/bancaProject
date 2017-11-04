@@ -16,18 +16,19 @@ module.exports = function(app, swig, gestorBD){
             var password = app.get("crypto").createHmac('sha256', app.get('clave'))
             .update(req.body.password).digest('hex');   
 
-            var dni = req.body.dni;
-            var movil = req.body.movil;
+            //var dni = req.body.dni;
+            //var movil = req.body.movil;
             var nombre = req.body.nombre;
             var apellidos = req.body.apellidos;
-            var direccion = req.body.direccion;
-            var fechaNacimiento = req.body.fechaNacimiento;
+            //var direccion = req.body.direccion;
+            //var fechaNacimiento = req.body.fechaNacimiento;
             var email = req.body.email;
             var nombreUsuario = req.body.nombreUsuario;
 
-            if(dni == null || movil == null || nombre == null || apellidos == null || direccion == null || 
-                fechaNacimiento == null || email == null || nombreUsuario == null){
-                    res.send("Rellene todos los campos");
+            if(nombre == null || apellidos == null || email == null || nombreUsuario == null){
+                res.redirect("/registrarse" +
+                "?mensaje=Rellene todos los campos"+
+                "&tipoMensaje=alert-danger ");
             }
             else{
                 var criterio = { "nombreUsuario" : req.body.nombreUsuario  };	
@@ -55,7 +56,7 @@ module.exports = function(app, swig, gestorBD){
                                 
                             } else {
                                 res.redirect("/identificarse?mensaje=Nuevo usuario registrado"+
-                                "&tipoMensaje=alert-info ");
+                                "&tipoMensaje=alert-success ");
                             }
                         });
                     } else {
@@ -139,20 +140,16 @@ module.exports = function(app, swig, gestorBD){
                     }
                     gestorBD.modificarUsuario(criterio, usuario, function(id) {
                         if (id == null){
-                            //res.send("error al editar las contraseñas");
                             res.redirect("/registrarse?mensaje=Error al editar el usuario");
                         } else {
-                            //res.send("usuario editado correctamente");
                             res.redirect("/identificarse?mensaje=Usuario editado correctamente");
                         }
                     });
                 } else {
-                    //res.send("usuario con identificador no existe");
                     res.redirect("/registrarse?mensaje=El usuario con ese identificador no existe");
                 }
             });
         }else{
-            //res.send("las contraseñas no coinciden");
             res.redirect("/registrarse?mensaje=Las contraseñas no coinciden");
         }
     });
@@ -170,5 +167,12 @@ module.exports = function(app, swig, gestorBD){
         req.session.destroy();
 
 		res.send(respuesta);
-	});
+    });
+    
+    app.get("/formularioInversores", function(req, res) {
+        var respuesta = swig.renderFile('views/formularioInversores.html', {
+            usuario : true
+        });
+		res.send(respuesta);
+    });
 }

@@ -10,7 +10,6 @@ module.exports = function(app, swig, gestorBD){
         var numero = req.body.numero;
         var iban = req.body.iban;
 
-        console.log(iban);
         
         var perdida = false;
         var activa = false;
@@ -31,8 +30,9 @@ module.exports = function(app, swig, gestorBD){
                         }
                         gestorBD.insertarTarjeta(tarjeta, function(id) {
                             if (id == null){
-                                res.send("error al crear la tarjeta");
-                                //res.redirect("/crearTarjeta?mensaje=Error al crear la tarjeta");
+                                res.redirect("/home" +
+                                "?mensaje=Error al crear la tarjeta"+
+                                "&tipoMensaje=alert-danger ");
                             } else {
                                 //crear asociacion de cuenta con usuario que la crea
                                 gestorBD.cuentaPoseeTarjeta(criterioCuenta, numero ,function(usuarios){
@@ -51,13 +51,15 @@ module.exports = function(app, swig, gestorBD){
                             }
                         });
                     } else {
-                        res.send("La tarjeta ya existe");
-                        //res.redirect("/crearTarjeta?mensaje=La tarjeta ya existe");
+                        res.redirect("/home"  +
+                        "?mensaje=La tarjeta ya existe"+
+                        "&tipoMensaje=alert-danger ");
                     }
                 });
             }else{
-                res.send("La cuenta asociada a la tarjeta no existe");
-                //res.redirect("/crearTarjeta?mensaje=La cuenta asociada a la tarjeta no existe");
+                res.redirect("/home"  +
+                "?mensaje=La cuenta asociada a la tarjeta no existe"+
+                "&tipoMensaje=alert-danger ");
             }  
         });     
     });
@@ -81,7 +83,6 @@ module.exports = function(app, swig, gestorBD){
                 res.send(respuesta);
 
 			} else {
-                //res.send(tarjetas);
 				var respuesta = swig.renderFile('views/tarjetas.html', 
 				{
 					tarjetas : tarjetas,
@@ -115,17 +116,14 @@ module.exports = function(app, swig, gestorBD){
                 }
                 gestorBD.modificarTarjeta(criterioTarjeta, tarjeta, function(id) {
                     if (id == null){
-                        res.send("Error al editar la tarjeta");
-                        //res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
+                        res.redirect("/tarjetas?mensaje=Error al editar la tarjeta");
                         
                     } else {
-                        res.send("Tarjeta editada correctamente");
-                        //res.redirect("/tarjetas?mensaje=Tarjeta editada correctamente");
+                        res.redirect("/tarjetas?mensaje=Tarjeta editada correctamente");
                     }
                 });
             } else {
-                res.send("Tarjeta para ese usuario no existe");
-                //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
+                res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
             }
         });
     });
@@ -164,8 +162,9 @@ module.exports = function(app, swig, gestorBD){
                     }
                 });
             } else {
-                res.send("Tarjeta para ese usuario no existe");
-                //res.redirect("/tarjetas?mensaje=Tarjeta para ese usuario no existe");
+                res.redirect("/tarjetas"  +
+                "?mensaje=Tarjeta para ese usuario no existe"+
+                "&tipoMensaje=alert-danger ");
             }
         }); 
     });
