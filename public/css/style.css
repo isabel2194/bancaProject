@@ -137,13 +137,14 @@ body > div{
 
 #msg-alert{
 	z-index: 3;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
 .btn{
 	margin:10px 0;	
+}
+
+#select-account{
+	width:inherit;
 }
 
 #busqueda_cuentas .btn{

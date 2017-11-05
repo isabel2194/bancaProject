@@ -20,7 +20,7 @@
 			<label>N&#250;mero*</label> <input type="number" class="form-control"
 				placeholder="N&#250;mero de tarjeta" name="numero" min="0" required/> 
 			<label>IBAN</label> 
-			<select name="iban" required>
+			<select id="select-account" class="form-control" name="iban" required>
 			{% for cuenta in cuentas %}
 			<option>{{ cuenta.iban }}</option>
 			{%endfor%}
