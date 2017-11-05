@@ -44,6 +44,24 @@
     </tr>
     {%endfor%}
 </table>
+
+{% if paginas != null %}
+
+<div class="row text-center">
+	<ul class="pagination">
+          <p>{{total}} elementos encontrados</p>
+		{% for pagina in paginas %}
+		<li class="page-item" id="pi-{{ pagina}}">
+			<a class="page-link" href="/cuenta/{{cuenta.iban}}?pg={{ pagina }}" >{{ pagina }}</a>
+		</li>
+		{% endfor %}
+		<script>
+			$( "#pi-{{ actual}}" ).addClass("active");
+		</script>
+	</ul>
+</div>
+
+{% endif %}
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="col-xs-7 modal-contenido">

@@ -129,17 +129,39 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
             var dat2 = dateTime.create(fechaMovimiento);
             fechaMovimiento = dat2.format('d/m/Y');
         }	
+
+        var pg = parseInt(req.query.pg);
+        if ( req.query.pg == null){
+            pg = 1;
+        }
         
-		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, function(cuentas){
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, pg, function(cuentas, total){
 			if (cuentas[0] == null) {
                 res.redirect("/home" +
                 "?mensaje=La cuenta solicitada no pertenece al usuario"+
                 "&tipoMensaje=alert-danger ");
 			} else {
+                var ultimaPg = total/4;
+                if (total % 4 > 0 ){ // Sobran decimales
+                    ultimaPg = ultimaPg+1;
+                }
+                
+                var paginas = []; // paginas mostrar
+                for(var i = pg-2 ; i <= pg+2 ; i++){
+                    if ( i > 0 && i <= ultimaPg){
+                        paginas.push(i);
+                    }
+                }
+
+                console.log(paginas);
+
 				var respuesta = swig.renderFile('views/cuentaDetalle.html', 
 				{
                     cuenta : cuentas[0],
-                    usuario:true
+                    usuario:true,
+                    paginas : paginas,
+                    actual : pg,
+                    total : total
                 });
 				res.send(respuesta);
 			}
@@ -155,6 +177,11 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var criterioUsuarioCompartir = { "nombreUsuario" : req.body.usuarioCompartir };
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
+
+        var pg = parseInt(req.query.pg);
+        if ( req.query.pg == null){
+            pg = 1;
+        }
 	
 		gestorBD.obtenerUsuarios(criterioUsuarioCompartir, function(usuarios){
 			if (usuarios[0] == null) {
@@ -162,14 +189,14 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                 "?mensaje=El usuario no existe"+
                 "&tipoMensaje=alert-danger");
 			} else {
-                gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
+                gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, 1, function(cuentas, total){
                     if (cuentas == null) {
                         res.redirect("/cuenta/" + iban +
                         "?mensaje=El usuario no es dueño de la cuenta"+
                         "&tipoMensaje=alert-danger");
                     }
                     else{
-                         gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban, null, null, function(cuentas){
+                         gestorBD.usuarioCuentasIban(criterioUsuarioCompartir, iban, null, null, 1, function(cuentas, total2){
                             if (cuentas != null) {
                                 res.redirect("/cuenta/" + iban +
                                 "?mensaje=El usuario ya tiene compartida esta cuenta"+
@@ -178,11 +205,11 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                 gestorBD.usuarioPoseeCuenta(criterioUsuarioCompartir, iban ,function(usuarios){
                                     if ( usuarios == null ){
                                         res.redirect("/cuenta/" + iban +
-                                        "?mensaje=Error al compartir la cuenta"+
+                                        "?pg=" + pg + "&mensaje=Error al compartir la cuenta"+
                                         "&tipoMensaje=alert-danger");
                                     } else {
                                         res.redirect("/cuentas" +
-                                        "?mensaje=Cuenta compartida correctamente"+
+                                        "?pg=" + pg + "?mensaje=Cuenta compartida correctamente"+
                                         "&tipoMensaje=alert-info");
                                     }
                                 });
@@ -202,16 +229,17 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
     app.post('/cuenta/principal/:iban', function (req, res) {
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var iban = req.params.iban;
+        var pg = 1;
     
-        gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
+        gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, pg, function(cuentas, total){
 			if (cuentas == null) {
-				res.redirect("/cuenta/" + iban + "?mensaje=La cuenta no pertenede al usuario&tipoMensaje=alert-danger");
+				res.redirect("/cuenta/" + iban + "?pg=" + pg + "?mensaje=La cuenta no pertenede al usuario&tipoMensaje=alert-danger");
 			} else {
                 gestorBD.usuarioCambiarPrincipal(criterioUsuario, iban, function(cuentas){
                     if (cuentas != true) {
-                        res.redirect("/cuenta/" + iban + "?mensaje=Ha ocurrido un error procesando su operación&tipoMensaje=alert-danger");
+                        res.redirect("/cuenta/" + iban + "?pg=" + pg + "?mensaje=Ha ocurrido un error procesando su operación&tipoMensaje=alert-danger");
                     } else {
-                        res.redirect("/cuenta/" + iban + "?mensaje=Cuenta editada correctamente&tipoMensaje=alert-info");
+                        res.redirect("/cuenta/" + iban + "?pg=" + pg + "?mensaje=Cuenta editada correctamente&tipoMensaje=alert-info");
                     }
                 });
             }
@@ -234,7 +262,12 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
         var criterioUsuario = { "nombreUsuario" : req.session.nombreUsuario };
         var criterioCuenta = { "iban" : req.params.iban };
 
-		gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, function(cuentas){
+        var pg = parseInt(req.query.pg);
+        if ( req.query.pg == null){
+            pg = 1;
+        }
+
+		gestorBD.usuarioCuentasIban(criterioUsuario, iban, null, null, pg, function(cuentas, total){
 			if (cuentas[0] == null) {
                 res.redirect("/home" +
                 "?mensaje=Error al mostrar la cuenta del usuario"+
@@ -264,16 +297,33 @@ module.exports = function(app, swig, gestorBD, dateTime, ibanGenerator){
                                     "?mensaje=Error al modificar el saldo"+
                                     "&tipoMensaje=alert-danger ");
                                 } else {
-                                    gestorBD.usuarioCuentasIban(criterioUsuario, iban , null, null, function(cuentas){
+                                    gestorBD.usuarioCuentasIban(criterioUsuario, iban , null, null, pg, function(cuentas){
                                         if (cuentas[0] == null) {
-                                            res.redirect("/cuenta/" + iban +
+                                            res.redirect("/cuenta/" + iban + "?pg=" + pg + 
                                             "?mensaje=La cuenta no pertenece al usuario"+
                                             "&tipoMensaje=alert-danger ");
                                         } else {
+                                            var ultimaPg = total/4;
+                                            if (total % 4 > 0 ){ // Sobran decimales
+                                                ultimaPg = ultimaPg+1;
+                                            }
+                                            
+                                            var paginas = []; // paginas mostrar
+                                            for(var i = pg-2 ; i <= pg+2 ; i++){
+                                                if ( i > 0 && i <= ultimaPg){
+                                                    paginas.push(i);
+                                                }
+                                            }
+                            
+                                            console.log(paginas);
+                            
                                             var respuesta = swig.renderFile('views/cuentaDetalle.html', 
                                             {
                                                 cuenta : cuentas[0],
-                                                usuario:true
+                                                usuario:true,
+                                                paginas : paginas,
+                                                actual : pg,
+                                                total : total
                                             });
                                             res.send(respuesta);
                                         }

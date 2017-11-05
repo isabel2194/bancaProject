@@ -146,7 +146,7 @@ module.exports = {
             }
         });
     }
-    ,usuarioCuentasIban: function(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, funcionCallback) {
+    ,usuarioCuentasIban: function(criterioUsuario, iban, movimientoBusqueda, fechaMovimiento, pg, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -190,7 +190,18 @@ module.exports = {
                                         }, this);
                                         cuentas[0].movimientos = nuevoArray;
                                     }
-                                    funcionCallback(cuentas);
+                                    if(cuentas[0].movimientos != undefined){
+                                        var count = cuentas[0].movimientos.length;
+                                        var limit = 4;
+                                        var actual = (pg-1)*4;
+                                        console.log(cuentas[0].movimientos.length);
+                                        if((actual + 4 > count) ){
+                                            cuentas[0].movimientos  = cuentas[0].movimientos.slice(actual, count);
+                                        }else{
+                                            cuentas[0].movimientos = cuentas[0].movimientos.slice(actual, actual+limit);
+                                        }
+                                    }
+                                    funcionCallback(cuentas, count);
                                 }
                                 db.close();
                             });
