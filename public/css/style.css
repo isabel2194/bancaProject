@@ -20,6 +20,13 @@
     color:black;
 }
 
+.slider-numeros{
+	width: 120px;
+	display: inline-block;
+}
+
+
+
 #footer{
     min-height: 20px;
     text-align:center;

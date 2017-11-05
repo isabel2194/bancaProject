@@ -7,11 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "author": "Isabel del Álamo Rancaño && María Hernández Martínez",
+  "author": "Isabel del Ã�lamo RancaÃ±o && MarÃ­a HernÃ¡ndez MartÃ­nez",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "bootstrap-slider": "^9.9.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "iban-generator": "0.0.1",

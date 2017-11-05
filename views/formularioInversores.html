@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block titulo %} Bank - Reg&#237;strate {%endblock %} 
+{% block titulo %} Bank - Formulario para inversores {%endblock %} 
 {%block contenido_principal %}
 <main class="col-xs-12">
 <h1>Formulario para inversores</h1>
@@ -50,7 +50,7 @@
 				<option value="particular" selected>Particular</option>
 			</select>
 		</div>
-		<button id="share_account" class="btn btn-default" onclick="mostrarEmpresa()"> Siguiente</button>
+		<button id="sig_paso1" class="btn btn-default" onclick="mostrarEmpresa()"> Siguiente</button>
 	</div>
 	
 	<div id="informacionEmpresa" hidden>
@@ -89,15 +89,18 @@
 				<option value="otros" selected>Otros</option>
 			</select>
 		</div>
-		<button id="share_account" class="btn btn-default" onclick="volverPersonal()"> Atras</button>
-		<button  id="share_account" class="btn btn-default" onclick="mostrarInversion()"> Siguiente</button>
+		<button id="atras_paso2" class="btn btn-default" onclick="volverPersonal()"> Atras</button>
+		<button  id="sig_paso2" class="btn btn-default" onclick="mostrarInversion()"> Siguiente</button>
 	</div>
 	
 	<div id="informacionInversion" hidden>
 		<div class="form-group">
-			<label>Capital disponible*</label> 
-
-			<!-- SLIDER CON MAXIMO Y MINIMO?-->
+			<label>Capital maximo disponible*</label> 
+			<input type="number" name="quantity" min="0" max="1000000" class="form-control slider-numeros"/>
+		</div>
+		<div class="form-group">
+			<label>Capital minimo disponible*</label> 
+			<input type="number" name="quantity" min="0" max="1000000" class="form-control slider-numeros"/>
 		</div>
 		<div class="form-group">
 			<label>Disponibilidad para realizar inversión*</label> 
