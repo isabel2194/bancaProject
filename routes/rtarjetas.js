@@ -70,27 +70,34 @@ module.exports = function(app, swig, gestorBD){
     ///////////////////////////////////////////////////////////////////////////////
 
     app.get('/tarjetas', function (req, res) {
+    	
         var nombreUsuario = req.session.nombreUsuario;
         var criterio = { "nombreUsuario" : nombreUsuario };
+        var cuentasUsuario ;
+		
+        gestorBD.usuarioCuentas(criterio, null, function(cuentas){
+	        gestorBD.usuarioTarjetas(criterio, function(tarjetas){
 
-        gestorBD.usuarioTarjetas(criterio, function(tarjetas){
-			if ( tarjetas[0] == null){
-				var respuesta = swig.renderFile('views/tarjetas.html', 
-				{
-                    tarjetas : [],
-                    usuario:true
-				});
-                res.send(respuesta);
-
-			} else {
-				var respuesta = swig.renderFile('views/tarjetas.html', 
-				{
-					tarjetas : tarjetas,
-					usuario:true
-				});
-                res.send(respuesta);
-			}
-		});
+				if ( tarjetas[0] == null){
+					var respuesta = swig.renderFile('views/tarjetas.html', 
+					{
+						cuentas: cuentas,
+	                    tarjetas : [],
+	                    usuario:true
+					});
+	                res.send(respuesta);
+	
+				} else {
+					var respuesta = swig.renderFile('views/tarjetas.html', 
+					{
+						cuentas: cuentas,
+						tarjetas : tarjetas,
+						usuario:true
+					});
+	                res.send(respuesta);
+				}
+			});
+        });
     });
 
     ///////////////////////////////////////////////////////////////////////////////
