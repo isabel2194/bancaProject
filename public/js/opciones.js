@@ -38,6 +38,56 @@ function eliminarTarjeta(numero){
 	$.delete('/tarjeta/' + tarjeta.numero, {});
 }
 
+function mostrarEmpresa(){
+	console.log("me llaman");
+	var select = $( "#tipoInversion" ).val();
+	if(select == "particular"){
+		$("#informacionInversion").attr("hidden", false);
+
+		$("#inversion").removeClass("btn-default");
+		$("#inversion").addClass("btn-primary");
+	}
+	else{
+		$("#informacionEmpresa").attr("hidden", false);
+	}
+
+	
+	$("#informacionPersonal").attr("hidden", true);
+
+	$("#empresa").removeClass("btn-default");
+	$("#empresa").addClass("btn-primary");
+	
+}
+
+function mostrarInversion(){
+	$("#informacionEmpresa").attr("hidden", true);
+	$("#informacionInversion").attr("hidden", false);
+
+	$("#inversion").removeClass("btn-default");
+	$("#inversion").addClass("btn-primary");
+}
+
+function volverEmpresa(){
+	var select = $( "#tipoInversion" ).val();
+	if(select == "particular"){
+		$("#informacionPersonal").attr("hidden", false);
+		$("#empresa").removeClass("btn-primary");
+	}
+	else{
+		$("#informacionEmpresa").attr("hidden", false);
+	}
+
+	$("#informacionInversion").attr("hidden", true);
+	$("#inversion").removeClass("btn-primary");
+}
+
+function volverPersonal(){
+	$("#informacionEmpresa").attr("hidden", true);
+	$("#informacionPersonal").attr("hidden", false);
+
+	$("#empresa").removeClass("btn-primary");
+}
+
 $('#activaTarjeta').change(function() {
 	if ($('#activaTarjeta').prop('checked')) {
 		$.put('/tarjeta/' + tarjeta.numero, {

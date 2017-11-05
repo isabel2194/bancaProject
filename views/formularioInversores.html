@@ -3,40 +3,144 @@
 {%block contenido_principal %}
 <main class="col-xs-12">
 <h1>Formulario para inversores</h1>
-<form id="form_registro" method="post" action="/registrarse">
-	<!-- Señor / señora -->
-	<div class="form-group">
-		<label>Nombre*</label> <input type="text" class="form-control"
-			placeholder="Introduce tu nombre" name="nombre" required/>
+<div class="stepwizard">
+		<div class="stepwizard-row">
+			<div class="stepwizard-step">
+				<button id="personal" type="button" class="btn btn-primary btn-circle" disabled="disabled">1</button>
+				<p>Personal</p>
+			</div>
+			<div class="stepwizard-step">
+				<button id="empresa" type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
+				<p>Empresa</p>
+			</div>
+			<div class="stepwizard-step">
+				<button id="inversion" type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+				<p>Inversión</p>
+			</div> 
+		</div>
 	</div>
-	<div class="form-group">
-		<label>Apellidos*</label> <input type="text" class="form-control"
-			placeholder="Introduce tus apellidos" name="apellidos" required/>
-	</div>
-	<div class="form-group">
-		<label>País*</label> <input type="text" class="form-control"
-			placeholder="Introduce tu País" name="pais" required/>
-	</div>
-	<!-- Siguiente página -->
-	<!-- Empresa / Particular -->
-	<div class="form-group">
-		<label>Email*</label> <input type="email" class="form-control"
-			placeholder="email@email.com" name="email" required/>
-	</div>
-	<div class="form-group">
-		<label>Nombre de usuario*</label> <input type="text"
-			class="form-control" placeholder="Introduce tu nombre de usuario" name="nombreUsuario" required/>
-	</div>
-	<div class="form-group">
-		<label>Contrase&#241;a*</label> <input type="password" class="form-control"
-			placeholder="password" name="password" required/>
-	</div>
-	<div class="form-group">
-		<label>Repite la contrase&#241;a*</label> <input type="password"
-			class="form-control" name="repeatPassword" placeholder="repeatPassword" required/>
-	</div>
-	<button type="submit" class="button-click btn btn-default">Registrarse</button><button class="button-no-click btn btn-default" onclick="window.location='/';">Atr&#225;s</button>
-</form>
 
+<form id="form_registro">
+	<div id="informacionPersonal">
+		<div class="form-group">
+			<label>Tratamiento*</label> 
+			<select class="form-control" required>
+				<option value="señor">Señor</option>
+				<option value="señora">Señora</option>
+				<option value="otro" selected>Otro</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Nombre*</label> <input type="text" class="form-control"
+				placeholder="Philippe" name="nombre" required/>
+		</div>
+		<div class="form-group">
+			<label>Apellidos*</label> <input type="text" class="form-control"
+				placeholder="Martin" name="apellidos" required/>
+		</div>
+		<div class="form-group">
+			<label>País*</label> <input type="text" class="form-control"
+				placeholder="Francia" name="pais" required/>
+		</div>
+		<!-- Empresa / Particular -->
+		<div class="form-group">
+			<label>Tipo de inversión*</label> 
+			<select id="tipoInversion" class="form-control" required>
+				<option value="empresa">Empresa</option>
+				<option value="particular" selected>Particular</option>
+			</select>
+		</div>
+		<button type="button" id="share_account" class="btn btn-default" onclick="mostrarEmpresa()"> Siguiente</button>
+	</div>
+</form>
+	
+	<div id="informacionEmpresa" hidden>
+		<!-- Si pone particular acabar el formulario, si pone empresa mostrar el resto de páginas, siguiente página -->
+		<div class="form-group">
+			<label>Nombre de la empresa*</label> <input type="text" class="form-control"
+				placeholder="Lancôme" name="nombreEmpresa" required/>
+		</div>
+		<div class="form-group">
+			<label>Puesto ocupado en la empresa*</label> <input type="text" class="form-control"
+				placeholder="Contable" name="puestoEmpresa" required/>
+		</div>
+		<div class="form-group">
+			<label>País de la empresa*</label> <input type="text" class="form-control"
+				placeholder="Francia" name="paisEmpresa" required/>
+		</div>
+		<div class="form-group">
+			<label>¿Está el negocio de la empresa diversificado en más de un país?*</label> 
+			<select class="form-control" required>
+				<option value="si">Si</option>
+				<option value="no" selected>No</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>¿Dispone de inversión en otras empresas?*</label> 
+			<select class="form-control" required>
+				<option value="si">Si</option>
+				<option value="no" selected>No</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Sector al que pertenece la empresa*</label> 
+			<select class="form-control" required>
+				<option value="inversines">Inversiones</option>
+				<option value="bancaPrivada">Banca privada</option>
+				<option value="otros" selected>Otros</option>
+			</select>
+		</div>
+		<button type="button" id="share_account" class="btn btn-default" onclick="volverPersonal()"> Atras</button>
+		<button type="button" id="share_account" class="btn btn-default" onclick="mostrarInversion()"> Siguiente</button>
+	</div>
+
+	<div id="informacionInversion" hidden>
+		<div class="form-group">
+			<label>Capital disponible*</label> 
+			<!-- SLIDER CON MAXIMO Y MINIMO?-->
+		</div>
+		<div class="form-group">
+			<label>Disponibilidad para realizar inversión*</label> 
+			<select class="form-control" required>
+				<option value="inmediato">Inmediato</option>
+				<option value="masUnMes">Más de un mes</option>
+				<option value="masSeisMeses" selected>Más de seis meses</option>
+				<option value="masUnAno" selected>Más de un año</option>
+			</select>
+		</div>
+		<!-- Siguiente página-->
+		<div class="form-group">
+			<label>Concertar llamada*</label> 
+			<select id="concertarLlamada" class="form-control" required>
+				<option value="si" selected>Si</option>
+				<option value="no">No</option>
+			</select>
+		</div>
+
+		<script>
+			$( "#concertarLlamada" ).change(function() {
+				var select = $( "#concertarLlamada" ).val();
+				if(select == "si"){
+					$("#mostrarLlamada").attr("hidden", false);
+				}
+				else{
+					$("#mostrarLlamada").attr("hidden", true);
+				}
+				});
+		</script>
+
+		<!-- Mostrar si ha dicho que si-->
+		<div id="mostrarLlamada">
+			<div class="form-group">
+				<label>Tel&#233;fono</label> <input type="tel" class="form-control"
+					placeholder="+00 000000000" name="movil" required/>
+			</div>
+			<div class="form-group">
+				<label>Preferencia día y hora de llamada</label>
+				<input class="form-control" type="datetime-local" name="bdaytime">
+			</div>
+		</div>
+		<button type="button" id="share_account" class="btn btn-default" onclick="volverEmpresa()"> Atras</button>
+	</div>
 </main>
 {% endblock %}
