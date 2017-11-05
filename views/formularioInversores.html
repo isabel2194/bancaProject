@@ -31,15 +31,15 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label>Nombre*</label> <input type="text" class="form-control"
+			<label>Nombre*</label> <input id="nombre" type="text" class="form-control"
 				placeholder="Philippe" name="nombre" required/>
 		</div>
 		<div class="form-group">
-			<label>Apellidos*</label> <input type="text" class="form-control"
+			<label>Apellidos*</label> <input id="apellidos" type="text" class="form-control"
 				placeholder="Martin" name="apellidos" required/>
 		</div>
 		<div class="form-group">
-			<label>País*</label> <input type="text" class="form-control"
+			<label>País*</label> <input id="pais" type="text" class="form-control"
 				placeholder="Francia" name="pais" required/>
 		</div>
 		<!-- Empresa / Particular -->
@@ -50,22 +50,21 @@
 				<option value="particular" selected>Particular</option>
 			</select>
 		</div>
-		<button type="button" id="share_account" class="btn btn-default" onclick="mostrarEmpresa()"> Siguiente</button>
+		<button id="share_account" class="btn btn-default" onclick="mostrarEmpresa()"> Siguiente</button>
 	</div>
-</form>
 	
 	<div id="informacionEmpresa" hidden>
 		<!-- Si pone particular acabar el formulario, si pone empresa mostrar el resto de páginas, siguiente página -->
 		<div class="form-group">
-			<label>Nombre de la empresa*</label> <input type="text" class="form-control"
+			<label>Nombre de la empresa*</label> <input id="nombreEmpresa" type="text" class="form-control"
 				placeholder="Lancôme" name="nombreEmpresa" required/>
 		</div>
 		<div class="form-group">
-			<label>Puesto ocupado en la empresa*</label> <input type="text" class="form-control"
+			<label>Puesto ocupado en la empresa*</label> <input id="puesto" type="text" class="form-control"
 				placeholder="Contable" name="puestoEmpresa" required/>
 		</div>
 		<div class="form-group">
-			<label>País de la empresa*</label> <input type="text" class="form-control"
+			<label>País de la empresa*</label> <input id="paisEmpresa" type="text" class="form-control"
 				placeholder="Francia" name="paisEmpresa" required/>
 		</div>
 		<div class="form-group">
@@ -90,13 +89,14 @@
 				<option value="otros" selected>Otros</option>
 			</select>
 		</div>
-		<button type="button" id="share_account" class="btn btn-default" onclick="volverPersonal()"> Atras</button>
-		<button type="button" id="share_account" class="btn btn-default" onclick="mostrarInversion()"> Siguiente</button>
+		<button id="share_account" class="btn btn-default" onclick="volverPersonal()"> Atras</button>
+		<button  id="share_account" class="btn btn-default" onclick="mostrarInversion()"> Siguiente</button>
 	</div>
-
+	
 	<div id="informacionInversion" hidden>
 		<div class="form-group">
 			<label>Capital disponible*</label> 
+
 			<!-- SLIDER CON MAXIMO Y MINIMO?-->
 		</div>
 		<div class="form-group">
@@ -132,15 +132,30 @@
 		<!-- Mostrar si ha dicho que si-->
 		<div id="mostrarLlamada">
 			<div class="form-group">
-				<label>Tel&#233;fono</label> <input type="tel" class="form-control"
+				<label>Tel&#233;fono</label> <input id="telefono" type="tel" class="form-control"
 					placeholder="+00 000000000" name="movil" required/>
 			</div>
 			<div class="form-group">
-				<label>Preferencia día y hora de llamada</label>
-				<input class="form-control" type="datetime-local" name="bdaytime">
+				<label>Preferencia día de llamada</label>
+				<input type="text" id="datepicker" required>
+			</div>
+			<div class="form-group">
+				<label>Preferencia hora de llamada</label>
+				<input type="time" id="timepicker" required>
 			</div>
 		</div>
+
+		<script>
+				$(function() {
+					$("#datepicker").datepicker({
+						minDate : 0
+					});
+				});
+			</script>
 		<button type="button" id="share_account" class="btn btn-default" onclick="volverEmpresa()"> Atras</button>
+		<button type="button" id="share_account" class="btn btn-default" onclick="enviarFormulario()"> Enviar</button>
 	</div>
+	
+</form>
 </main>
 {% endblock %}
