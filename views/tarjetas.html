@@ -22,8 +22,8 @@
     {% for tarjeta in tarjetas %}
     <tr>
         <td>N&#186; de tarjeta: {{ tarjeta.numero }}</td>
-            <td><input id="toggle-event" name="estado" data-toggle="toggle" data-on="Habilitada" data-off="Deshabilitada" data-onstyle="success" data-offstyle="danger" type="checkbox"></td>
-        <form onsubmit="return confirm('La tarjeta se eliminar&#225; del sistema. ¿Est&#225; seguro?')" action='/tarjetaEliminar/{{ tarjeta.numero }}' method="get">
+            <td><input id="toggle-event" checked name="estado" data-toggle="toggle" data-on="Habilitada" data-off="Deshabilitada" data-onstyle="success" data-offstyle="danger" type="checkbox"></td>
+        <form onsubmit="return confirm('La tarjeta se eliminar&#225; del sistema.¿Est&#225; seguro?')" action='/tarjetaEliminar/{{ tarjeta.numero }}' method="get">
             <td><button class="btn">P&#233;rdida/robo</button></form></td>
         </form>       
     </tr>
