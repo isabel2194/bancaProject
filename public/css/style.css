@@ -137,13 +137,14 @@ body > div{
 
 #msg-alert{
 	z-index: 3;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
 .btn{
 	margin:10px 0;	
+}
+
+#select-account{
+	width:inherit;
 }
 
 #busqueda_cuentas .btn{
@@ -209,6 +210,7 @@ button > span{
     text-transform: uppercase;
 }
 
+
 .stepwizard-step p {
     margin-top: 10px;
 }
@@ -254,6 +256,22 @@ button > span{
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+}
+
+#accordion h3{
+	font-family:Dosis;
+	font-size:20px;
+	background-color: steelblue;
+	color:white;
+}
+.ui-accordion-content-active{
+	height:100% !important;
+}
+.texto_quienes{
+	font-size:14px;
+	font-family:Dosis;
+	
+
 }
 
 @media(max-width:768px){

@@ -41,15 +41,15 @@
     <tr>
         <td>{{ movimiento.fecha }}</td>
         <td>{{ movimiento.concepto }}</td>
-        <td>{{ movimiento.cantidad }} �.</td>
+        <td>{{ movimiento.cantidad }} &euro;</td>
     </tr>
     {%endfor%}
 </table>
 {% endif %}
 
 {% if cuenta.movimientos == null %}
-<div class="alert alert-info">
-    <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
+<div class="alert alert-info col-xs-12">
+    <strong>Info!</strong> Esta cuenta aun no tiene movimientos.
 </div>
 {% endif %}
 
