@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>{% block titulo %} Bank {% endblock %}</title>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -17,6 +17,16 @@
 	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="/js/opciones.js"></script>
 <link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="/css/jquery-ui.min.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script>
+	$(function() {
+		$("#accordion").accordion({
+			collapsible : true
+		});
+	});
+</script>
 </head>
 <body>
 	<header class="col-xs-12">
@@ -26,91 +36,102 @@
 		<div class="container-fluid">
 			{% if usuario==true %}
 			<ul class="nav navbar-nav navbar-left">
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Banca privada <span class="caret"></span></a>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Banca privada <span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
-					  <li><a href="/cuentas">Cuentas</a></li>
-					  <li id="mCuentas"><a href="/tarjetas">Tarjetas</a></li>
-					  <li id="mTarjetas"><a href="#">Domiciliaciones</a></li>
-					</ul>
-				</li>
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sobre nosotros <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="#">Empresas</a></li>
-					<li><a href="#">Buscador de oficinas</a></li>
-					<li><a href="#">Consejo directivo</a></li>
-				</ul>
-				</li>
+						<li><a href="/cuentas">Cuentas</a></li>
+						<li id="mCuentas"><a href="/tarjetas">Tarjetas</a></li>
+						<li id="mTarjetas"><a href="#">Domiciliaciones</a></li>
+					</ul></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Sobre nosotros <span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/quienessomos">Quienes somos</a></li>
+						<li><a href="#">Empresas</a></li>
+						<li><a href="#">Buscador de oficinas</a></li>
+						<li><a href="#">Consejo directivo</a></li>
+					</ul></li>
 			</ul>
-			{% endif%}
-			{% if usuario == false %}
+			{% endif%} {% if usuario == false %}
 			<ul class="nav navbar-nav navbar-left">
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Hipotecas y Préstamos <span class="caret"></span></a>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Hipotecas y Préstamos <span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="#">Financiación</a></li>
 						<li><a href="#">Hipotecas</a></li>
 						<li><a href="#">Prestamos</a></li>
 						<li><a href="#">Renting</a></li>
-					</ul>
-				</li>
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Inversión y Ahorro <span class="caret"></span></a>
+					</ul></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Inversión y Ahorro <span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="/formularioInversores">Formulario para inversores</a></li>
+						<li><a href="/formularioInversores">Formulario para
+								inversores</a></li>
 						<li><a href="#">Acciones</a></li>
 						<li><a href="#">Ahorro</a></li>
 						<li><a href="#">Inversión</a></li>
 						<li><a href="#">Pensiones</a></li>
 						<li><a href="#">Seguros</a></li>
-					</ul>
-				</li>
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sobre nosotros <span class="caret"></span></a>
+					</ul></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Sobre nosotros <span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a href="/quienessomos">Quienes somos</a></li>
 						<li><a href="#">Empresas</a></li>
 						<li><a href="#">Buscador de oficinas</a></li>
 						<li><a href="#">Consejo directivo</a></li>
-					</ul>
-				</li>
+					</ul></li>
 			</ul>
-			  {% endif%}
+			{% endif%}
 
 			<ul class="nav navbar-nav navbar-right">
 				{% if usuario==false %}
 				<li><a href="/registrarse"><span
 						class="glyphicon glyphicon-user"></span> Registrate</a></li>
 				<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img
-						src="/img/padlock-icon.png" alt="Identificate" />Identifícate<span class="caret"></span></a>
-			<ul id="login-dp" class="dropdown-menu">
-				<li>
-					 <div class="row">
-							<div class="col-md-12">
-								Iniciar sesión 
-								 <form class="form" role="form" method="post" action="/identificarse" accept-charset="UTF-8" id="login-nav">
+						src="/img/padlock-icon.png" alt="Identificate" />Identifícate<span
+						class="caret"></span></a>
+					<ul id="login-dp" class="dropdown-menu">
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									Iniciar sesión
+									<form class="form" role="form" method="post"
+										action="/identificarse" accept-charset="UTF-8" id="login-nav">
 										<div class="form-group">
-											 <label class="sr-only" for="usernameLogin">Nombre de usuario</label>
-											 <input type="text" class="form-control" id="usernameLogin" name="nombreUsuario" placeholder="Nombre de usuario" required>
+											<label class="sr-only" for="usernameLogin">Nombre de
+												usuario</label> <input type="text" class="form-control"
+												id="usernameLogin" name="nombreUsuario"
+												placeholder="Nombre de usuario" required>
 										</div>
 										<div class="form-group">
-											 <label class="sr-only" for="passwordLogin">Contraseña</label>
-											 <input type="password" class="form-control" id="passwordLogin" name="password" placeholder="Contraseña" required>
+											<label class="sr-only" for="passwordLogin">Contraseña</label>
+											<input type="password" class="form-control"
+												id="passwordLogin" name="password" placeholder="Contraseña"
+												required>
 										</div>
 										<div class="form-group">
-											 <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+											<button type="submit" class="btn btn-primary btn-block">Iniciar
+												sesión</button>
 										</div>
-								 </form>
+									</form>
+								</div>
+								<div class="bottom text-center">
+									Eres nuevo aquí? <a href="/registrarse"><b>Registrate</b></a>
+								</div>
 							</div>
-							<div class="bottom text-center">
-								Eres nuevo aquí? <a href="/registrarse"><b>Registrate</b></a>
-							</div>
-					 </div>
-				</li>
-			</ul>
-			</li>
-				{%endif %} 
-				{% if usuario==true %}
+						</li>
+					</ul></li> {%endif %} {% if usuario==true %}
 				<li><a href="/perfil"><span
 						class="glyphicon glyphicon-user"></span> Perfil</a></li>
 				<li><a href="/cerrarSesion"><span
-						class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li>
-				{% endif%}
+						class="glyphicon glyphicon-log-out"></span>Cerrar sesion</a></li> {%
+				endif%}
 			</ul>
 		</div>
 	</nav>
@@ -124,8 +145,8 @@
 					tipoMensaje = 'alert-info';
 				}
 				$(".container").append(
-						"<div id='msg-alert' class='col-xs-12 alert " + tipoMensaje + "'>" + mensaje
-								+ " </div>");
+						"<div id='msg-alert' class='col-xs-12 alert " + tipoMensaje + "'>"
+								+ mensaje + " </div>");
 			}
 
 			function getUrlParameter(name) {

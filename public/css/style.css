@@ -210,6 +210,21 @@ button > span{
     text-transform: uppercase;
 }
 
+#accordion h3{
+	font-family:Dosis;
+	font-size:20px;
+	background-color: steelblue;
+	color:white;
+}
+.ui-accordion-content-active{
+	height:100% !important;
+}
+.texto_quienes{
+	font-size:14px;
+	font-family:Dosis;
+	
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
