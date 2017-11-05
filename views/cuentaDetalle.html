@@ -15,6 +15,7 @@
         <button id="transferencia_button" class="btn btn-default" onclick="hacerTransferencia()">TRANSFERENCIA</button>
     </div>
 </div>
+{% if cuenta.movimientos != null%}
 <div id="busqueda_movimientos" class="col-xs-12">
 <form method="get" action="/cuenta/{{ cuenta.iban }}" >
 		<div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
@@ -44,9 +45,16 @@
     </tr>
     {%endfor%}
 </table>
+{% endif %}
+
+{% if cuenta.movimientos == null %}
+<div class="alert alert-info">
+    <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
+</div>
+{% endif %}
 
 {% if paginas != null %}
-
+ 
 <div class="row text-center">
 	<ul class="pagination">
           <p>{{total}} elementos encontrados</p>
